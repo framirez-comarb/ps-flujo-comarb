@@ -1,0 +1,27 @@
+# Credenciales
+sa_credentials.json
+*credentials*.json
+comarb-analytics-*.json
+
+# Cache de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# Outputs de prueba / debug
+ps_flujo_test*
+*_test_*.csv
+*_test_*.html
+*_test_*.json
+debug_*.html
+cerrar_encuesta_sin_cuit.csv
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

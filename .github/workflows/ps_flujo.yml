@@ -1,0 +1,53 @@
+name: PS Flujo - Analisis de recorrido GA4
+
+on:
+  schedule:
+    # Lunes a viernes a las 9:00, 12:00 y 17:00 hora Argentina (UTC-3 -> 12:00, 15:00, 20:00 UTC)
+    # Mismo schedule que ps-verificacion-comarb.
+    - cron: '0 12,15,20 * * 1-5'
+  workflow_dispatch: # Permite ejecucion manual
+
+permissions:
+  contents: write
+
+jobs:
+  analizar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Escribir credenciales GA4
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > sa_credentials.json
+
+      - name: Ejecutar PS Flujo
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: |
+          python -u ps_flujo.py \
+            -c sa_credentials.json \
+            --desde 2026-01-01 \
+            --hasta "$(date +%Y-%m-%d)" \
+            -o ps_flujo.html
+
+      - name: Limpiar credenciales
+        if: always()
+        run: rm -f sa_credentials.json
+
+      - name: Copiar reporte a index.html (GitHub Pages)
+        run: cp ps_flujo.html index.html
+
+      - name: Commit y push de resultados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ps_flujo.html ps_flujo_sesiones.csv ps_flujo_funnel.csv ps_flujo_eventos_raw.csv index.html
+          git diff --staged --quiet || git commit -m "Actualizar analisis de flujo PS $(date +%Y-%m-%d)"
+          git push
