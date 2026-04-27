@@ -1563,66 +1563,9 @@ def generate_report(
         margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border);
         font-size: .72rem; color: var(--text-dim); text-align: center;
     }}
-
-    /* ── Modo PDF (impresión) ─────────────────────────────────
-       Layout especial al imprimir: ocultar elementos interactivos
-       y mostrar SOLO los bloques visualizables (KPIs, charts, tablas
-       resumen) sin importar la pestaña activa. */
-    @media print {{
-        /* Forzar tema claro para legibilidad en papel */
-        :root {{
-            --bg: #ffffff !important; --surface: #ffffff !important;
-            --surface2: #f0f2f7 !important; --border: #d9dde5 !important;
-            --text: #1a1d27 !important; --text-dim: #4b5563 !important;
-            --accent: #4f6ef0 !important; --green: #0d9f6e !important;
-            --amber: #d97706 !important; --red: #dc2e5c !important;
-            --purple: #7c3aed !important; --cyan: #0891b2 !important;
-            --hover-tint: transparent !important;
-            --row-border-soft: #d9dde5 !important;
-            --chart-grid: #d9dde5 !important; --chart-text: #4b5563 !important;
-        }}
-        @page {{ size: A4; margin: 14mm 12mm; }}
-        body {{ padding: 0 !important; background: white !important; }}
-        .container {{ max-width: 100% !important; }}
-
-        /* Ocultar elementos interactivos */
-        .theme-toggle, #pdf-download,
-        .period-filter button, .period-filter input,
-        .tabs, .col-filter, .filter-row,
-        .sort-arrow, footer {{
-            display: none !important;
-        }}
-        .period-filter {{ font-size: .75rem; margin-top: .3rem; }}
-        .period-filter span:not(.period-info) {{ display: none !important; }}
-
-        /* Mostrar SOLO tabs con pdf-include en el PDF; el resto queda oculto */
-        .tab-content {{ display: none !important; }}
-        .tab-content.pdf-include {{ display: block !important; page-break-after: auto; }}
-        .pdf-section {{ display: block !important; page-break-inside: avoid; }}
-
-        /* Tablas dentro de pdf-include que NO queremos mostrar */
-        #pdf-hide-card-paths,
-        .pdf-hide {{ display: none !important; }}
-
-        /* Cards y charts: bordes sutiles para impresión */
-        .chart-card, .card {{
-            border: 1px solid #d9dde5 !important;
-            box-shadow: none !important;
-            page-break-inside: avoid;
-            margin-bottom: 1rem;
-        }}
-        .chart-card canvas {{ background: #fff !important; max-height: 360pt !important; }}
-
-        /* Tipografía adaptada a papel */
-        body {{ font-size: 10pt; }}
-        h1 {{ font-size: 16pt !important; }}
-        .kpi .value {{ font-size: 1.2rem !important; }}
-        .kpi .label {{ font-size: .65rem !important; }}
-        table {{ font-size: 9pt; }}
-        thead tr:first-child th {{ position: static !important; }}
-    }}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -1652,7 +1595,7 @@ def generate_report(
     </div>
 </header>
 
-<div class="kpis pdf-section">
+<div class="kpis">
     <div class="kpi">
         <div class="label">Sesiones únicas</div>
         <div class="value v1" id="kpi-total">{total_sesiones}</div>
@@ -1692,7 +1635,7 @@ def generate_report(
     <div class="tab" onclick="switchTab('sessions')">Sesiones (detalle)</div>
 </div>
 
-<div id="tab-funnel" class="tab-content active pdf-include">
+<div id="tab-funnel" class="tab-content active">
     <div class="chart-card">
         <h3>Sesiones que alcanzan cada pantalla</h3>
         <div style="position:relative;height:420px">
@@ -1737,7 +1680,7 @@ def generate_report(
     </div>
 </div>
 
-<div id="tab-escapes" class="tab-content pdf-include">
+<div id="tab-escapes" class="tab-content">
     <div class="card">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
             Sesiones que abandonaron el flujo simplificado por la versión clásica
@@ -1756,7 +1699,7 @@ def generate_report(
     </div>
 </div>
 
-<div id="tab-device" class="tab-content pdf-include">
+<div id="tab-device" class="tab-content">
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem">
         <div class="card">
             <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">Por tipo de dispositivo</h3>
@@ -1806,7 +1749,7 @@ def generate_report(
     </div>
 </div>
 
-<div id="tab-errcampo" class="tab-content pdf-include">
+<div id="tab-errcampo" class="tab-content">
     <div class="card">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
             Top campos con errores de validación
@@ -1825,7 +1768,7 @@ def generate_report(
         </table>
     </div>
 
-    <div class="card pdf-hide" style="margin-top:1.2rem">
+    <div class="card" style="margin-top:1.2rem">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
             Cross-tab: campo × pantalla (dónde se rompe cada campo)
         </h3>
@@ -1840,7 +1783,7 @@ def generate_report(
         </table>
     </div>
 
-    <div class="card pdf-hide" style="margin-top:1.2rem">
+    <div class="card" style="margin-top:1.2rem">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
             Textos sin clasificar (bucket "otros")
         </h3>
@@ -2382,32 +2325,184 @@ if (themeBtn) {{
 }}
 
 /* ─────────────────────────────────────────────────────────────
-   DESCARGA DE PDF (window.print + @media print)
+   DESCARGA DE PDF (vía html2pdf.js)
+   Construye un wrapper offscreen con sólo los KPIs + visualizaciones
+   y lo rasteriza a PDF. El contenido refleja el rango de fechas
+   actualmente filtrado.
    ───────────────────────────────────────────────────────────── */
 const pdfBtn = document.getElementById('pdf-download');
 if (pdfBtn) {{
     pdfBtn.addEventListener('click', () => {{
+        if (typeof html2pdf === 'undefined') {{
+            alert('html2pdf.js no cargó. Revisá tu conexión a internet.');
+            return;
+        }}
+        pdfBtn.disabled = true;
+        const labelOriginal = pdfBtn.innerHTML;
+        pdfBtn.innerHTML = '<span class="theme-icon">⏳</span> Generando…';
+
         const prevTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        // Forzar tema claro para impresión (más legible en papel)
         if (prevTheme !== 'light') {{
             document.documentElement.setAttribute('data-theme', 'light');
-            // Re-render del chart funnel con colores del tema claro
             const rows = computeFunnelRows(SESSIONS);
             renderFunnelChart(rows);
         }}
-        // Pequeña espera para que Chart.js termine de re-renderizar
+
         setTimeout(() => {{
-            window.print();
-            // Restaurar tema previo después del diálogo de impresión
-            setTimeout(() => {{
+            const wrapper = buildPdfWrapper();
+            document.body.appendChild(wrapper);
+
+            const fechaArchivo = new Date().toISOString().slice(0, 10);
+            html2pdf().from(wrapper).set({{
+                margin: [10, 10, 12, 10],
+                filename: 'ps_flujo_' + fechaArchivo + '.pdf',
+                image: {{ type: 'jpeg', quality: 0.95 }},
+                html2canvas: {{
+                    scale: 2, useCORS: true, backgroundColor: '#ffffff',
+                    logging: false, scrollY: 0,
+                }},
+                jsPDF: {{ unit: 'mm', format: 'a4', orientation: 'portrait' }},
+                pagebreak: {{ mode: ['css', 'legacy'], avoid: ['.kpi', '.chart-card', 'tr'] }},
+            }}).save().then(() => {{
+                wrapper.remove();
+                pdfBtn.disabled = false;
+                pdfBtn.innerHTML = labelOriginal;
                 if (prevTheme !== 'light') {{
                     document.documentElement.setAttribute('data-theme', prevTheme);
                     const rows = computeFunnelRows(SESSIONS);
                     renderFunnelChart(rows);
                 }}
-            }}, 500);
-        }}, 250);
+            }}).catch((err) => {{
+                console.error('Error al generar PDF', err);
+                wrapper.remove();
+                pdfBtn.disabled = false;
+                pdfBtn.innerHTML = labelOriginal;
+                if (prevTheme !== 'light') {{
+                    document.documentElement.setAttribute('data-theme', prevTheme);
+                    const rows = computeFunnelRows(SESSIONS);
+                    renderFunnelChart(rows);
+                }}
+                alert('Error al generar PDF. Revisá la consola.');
+            }});
+        }}, 350);
     }});
+}}
+
+/* Construye el wrapper offscreen para html2pdf.
+   Incluye: header simplificado + KPIs + chart funnel + tabla del funnel
+   + escapes a clásica + segmentación por dispositivo + top campos errores.
+   NO incluye: top caminos, tabla detalle de sesiones, cross-tab errores,
+   textos sin clasificar. */
+function buildPdfWrapper() {{
+    const w = document.createElement('div');
+    w.id = 'pdf-wrapper';
+    w.style.cssText = (
+        'position:fixed; left:-99999px; top:0; ' +
+        'width:780px; padding:18px 20px; background:#ffffff; color:#1a1d27; ' +
+        'font-family:\\'DM Sans\\', sans-serif; font-size:11pt;'
+    );
+
+    // 1) Header
+    const headerOriginal = document.querySelector('header');
+    if (headerOriginal) {{
+        const headerClone = document.createElement('div');
+        headerClone.style.cssText = 'border-bottom:1px solid #dfe3ec; padding-bottom:12px; margin-bottom:14px';
+        const h1 = document.createElement('h1');
+        h1.textContent = 'Presentación Simplificada — Análisis de flujo';
+        h1.style.cssText = 'font-size:20pt; font-weight:700; color:#4f6ef0; margin:0 0 4px 0';
+        headerClone.appendChild(h1);
+        const meta = headerOriginal.querySelector('.meta');
+        if (meta) {{
+            const metaClone = document.createElement('div');
+            metaClone.textContent = meta.textContent.trim();
+            metaClone.style.cssText = 'font-size:9pt; color:#6b7280';
+            headerClone.appendChild(metaClone);
+        }}
+        const desde = document.getElementById('fecha-desde');
+        const hasta = document.getElementById('fecha-hasta');
+        const periodInfo = document.getElementById('period-info');
+        if (desde && hasta) {{
+            const periodo = document.createElement('div');
+            const info = periodInfo ? periodInfo.textContent.trim() : '';
+            periodo.textContent = 'Período visualizado: ' + desde.value + ' → ' + hasta.value + ' ' + info;
+            periodo.style.cssText = 'font-size:9pt; color:#6b7280; margin-top:3px';
+            headerClone.appendChild(periodo);
+        }}
+        w.appendChild(headerClone);
+    }}
+
+    // 2) KPIs
+    const kpisOrig = document.querySelector('.kpis');
+    if (kpisOrig) w.appendChild(clonePdfBlock(kpisOrig));
+
+    // 3) Chart funnel + tabla del funnel
+    const chartCardFunnel = document.querySelector('#tab-funnel .chart-card');
+    if (chartCardFunnel) {{
+        const cloned = clonePdfBlock(chartCardFunnel);
+        const origCanvases = chartCardFunnel.querySelectorAll('canvas');
+        const cloneCanvases = cloned.querySelectorAll('canvas');
+        origCanvases.forEach((oc, idx) => {{
+            const cc = cloneCanvases[idx];
+            if (!cc || !oc) return;
+            cc.width = oc.width; cc.height = oc.height;
+            try {{ cc.getContext('2d').drawImage(oc, 0, 0); }} catch (_) {{ }}
+            cc.style.maxHeight = '380px'; cc.style.height = 'auto';
+        }});
+        w.appendChild(cloned);
+    }}
+    const tablaFunnel = document.querySelector('#tab-funnel .card');
+    if (tablaFunnel) w.appendChild(clonePdfBlock(tablaFunnel));
+
+    // 4) Page break
+    const br = document.createElement('div');
+    br.style.cssText = 'page-break-before:always; height:0';
+    br.className = 'html2pdf__page-break';
+    w.appendChild(br);
+
+    // 5) Escapes a clásica
+    const cardEscapes = document.querySelector('#tab-escapes .card');
+    if (cardEscapes) {{
+        const titulo = document.createElement('h2');
+        titulo.textContent = 'Escapes a versión clásica';
+        titulo.style.cssText = 'font-size:13pt; color:#4f6ef0; margin:8px 0 8px 0; font-weight:700';
+        w.appendChild(titulo);
+        w.appendChild(clonePdfBlock(cardEscapes));
+    }}
+
+    // 6) Segmentación por dispositivo (3 cards en grid)
+    const deviceCards = document.querySelectorAll('#tab-device .card');
+    if (deviceCards.length > 0) {{
+        const titulo = document.createElement('h2');
+        titulo.textContent = 'Segmentación por dispositivo';
+        titulo.style.cssText = 'font-size:13pt; color:#4f6ef0; margin:14px 0 8px 0; font-weight:700';
+        w.appendChild(titulo);
+        deviceCards.forEach(card => w.appendChild(clonePdfBlock(card)));
+    }}
+
+    // 7) Page break antes de errores por campo
+    const br2 = document.createElement('div');
+    br2.style.cssText = 'page-break-before:always; height:0';
+    br2.className = 'html2pdf__page-break';
+    w.appendChild(br2);
+
+    // 8) Top campos con errores (sólo el primer card del tab-errcampo)
+    const cardErrTop = document.querySelector('#tab-errcampo .card');
+    if (cardErrTop) {{
+        const titulo = document.createElement('h2');
+        titulo.textContent = 'Top campos con errores de validación';
+        titulo.style.cssText = 'font-size:13pt; color:#4f6ef0; margin:8px 0 8px 0; font-weight:700';
+        w.appendChild(titulo);
+        w.appendChild(clonePdfBlock(cardErrTop));
+    }}
+
+    return w;
+}}
+
+function clonePdfBlock(node) {{
+    const clone = node.cloneNode(true);
+    clone.style.marginBottom = '14px';
+    clone.style.pageBreakInside = 'avoid';
+    return clone;
 }}
 
 /* ─────────────────────────────────────────────────────────────
