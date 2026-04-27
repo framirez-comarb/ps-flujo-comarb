@@ -2326,9 +2326,10 @@ if (themeBtn) {{
 
 /* ─────────────────────────────────────────────────────────────
    DESCARGA DE PDF (vía html2pdf.js)
-   Construye un wrapper offscreen con sólo los KPIs + visualizaciones
-   y lo rasteriza a PDF. El contenido refleja el rango de fechas
-   actualmente filtrado.
+   Approach: mostrar todas las pestañas (para que Chart.js renderice
+   todos los canvas), ocultar UI no relevante (tabs, filtros, tablas
+   grandes de detalle), y rasterizar el container completo.
+   Mostramos un overlay para que el usuario no vea el layout shift.
    ───────────────────────────────────────────────────────────── */
 const pdfBtn = document.getElementById('pdf-download');
 if (pdfBtn) {{
@@ -2337,172 +2338,112 @@ if (pdfBtn) {{
             alert('html2pdf.js no cargó. Revisá tu conexión a internet.');
             return;
         }}
-        pdfBtn.disabled = true;
-        const labelOriginal = pdfBtn.innerHTML;
-        pdfBtn.innerHTML = '<span class="theme-icon">⏳</span> Generando…';
-
-        const prevTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        if (prevTheme !== 'light') {{
-            document.documentElement.setAttribute('data-theme', 'light');
-            const rows = computeFunnelRows(SESSIONS);
-            renderFunnelChart(rows);
-        }}
-
-        setTimeout(() => {{
-            const wrapper = buildPdfWrapper();
-            document.body.appendChild(wrapper);
-
-            const fechaArchivo = new Date().toISOString().slice(0, 10);
-            html2pdf().from(wrapper).set({{
-                margin: [10, 10, 12, 10],
-                filename: 'ps_flujo_' + fechaArchivo + '.pdf',
-                image: {{ type: 'jpeg', quality: 0.95 }},
-                html2canvas: {{
-                    scale: 2, useCORS: true, backgroundColor: '#ffffff',
-                    logging: false, scrollY: 0,
-                }},
-                jsPDF: {{ unit: 'mm', format: 'a4', orientation: 'portrait' }},
-                pagebreak: {{ mode: ['css', 'legacy'], avoid: ['.kpi', '.chart-card', 'tr'] }},
-            }}).save().then(() => {{
-                wrapper.remove();
-                pdfBtn.disabled = false;
-                pdfBtn.innerHTML = labelOriginal;
-                if (prevTheme !== 'light') {{
-                    document.documentElement.setAttribute('data-theme', prevTheme);
-                    const rows = computeFunnelRows(SESSIONS);
-                    renderFunnelChart(rows);
-                }}
-            }}).catch((err) => {{
-                console.error('Error al generar PDF', err);
-                wrapper.remove();
-                pdfBtn.disabled = false;
-                pdfBtn.innerHTML = labelOriginal;
-                if (prevTheme !== 'light') {{
-                    document.documentElement.setAttribute('data-theme', prevTheme);
-                    const rows = computeFunnelRows(SESSIONS);
-                    renderFunnelChart(rows);
-                }}
-                alert('Error al generar PDF. Revisá la consola.');
-            }});
-        }}, 350);
+        generarPDF();
     }});
 }}
 
-/* Construye el wrapper offscreen para html2pdf.
-   Incluye: header simplificado + KPIs + chart funnel + tabla del funnel
-   + escapes a clásica + segmentación por dispositivo + top campos errores.
-   NO incluye: top caminos, tabla detalle de sesiones, cross-tab errores,
-   textos sin clasificar. */
-function buildPdfWrapper() {{
-    const w = document.createElement('div');
-    w.id = 'pdf-wrapper';
-    w.style.cssText = (
-        'position:fixed; left:-99999px; top:0; ' +
-        'width:780px; padding:18px 20px; background:#ffffff; color:#1a1d27; ' +
-        'font-family:\\'DM Sans\\', sans-serif; font-size:11pt;'
+async function generarPDF() {{
+    const labelOriginal = pdfBtn.innerHTML;
+    pdfBtn.disabled = true;
+    pdfBtn.innerHTML = '<span class="theme-icon">⏳</span> Generando…';
+
+    // Overlay que tapa el layout shift mientras se genera
+    const overlay = document.createElement('div');
+    overlay.style.cssText = (
+        'position:fixed; inset:0; background:rgba(15,17,23,0.85); ' +
+        'z-index:99999; display:flex; align-items:center; justify-content:center; ' +
+        'color:white; font-family:\\'DM Sans\\', sans-serif; font-size:1.1rem;'
     );
+    overlay.innerHTML = '<div style="text-align:center"><div style="font-size:2rem;margin-bottom:.5rem">📄</div>Generando PDF…</div>';
+    document.body.appendChild(overlay);
 
-    // 1) Header
-    const headerOriginal = document.querySelector('header');
-    if (headerOriginal) {{
-        const headerClone = document.createElement('div');
-        headerClone.style.cssText = 'border-bottom:1px solid #dfe3ec; padding-bottom:12px; margin-bottom:14px';
-        const h1 = document.createElement('h1');
-        h1.textContent = 'Presentación Simplificada — Análisis de flujo';
-        h1.style.cssText = 'font-size:20pt; font-weight:700; color:#4f6ef0; margin:0 0 4px 0';
-        headerClone.appendChild(h1);
-        const meta = headerOriginal.querySelector('.meta');
-        if (meta) {{
-            const metaClone = document.createElement('div');
-            metaClone.textContent = meta.textContent.trim();
-            metaClone.style.cssText = 'font-size:9pt; color:#6b7280';
-            headerClone.appendChild(metaClone);
-        }}
-        const desde = document.getElementById('fecha-desde');
-        const hasta = document.getElementById('fecha-hasta');
-        const periodInfo = document.getElementById('period-info');
-        if (desde && hasta) {{
-            const periodo = document.createElement('div');
-            const info = periodInfo ? periodInfo.textContent.trim() : '';
-            periodo.textContent = 'Período visualizado: ' + desde.value + ' → ' + hasta.value + ' ' + info;
-            periodo.style.cssText = 'font-size:9pt; color:#6b7280; margin-top:3px';
-            headerClone.appendChild(periodo);
-        }}
-        w.appendChild(headerClone);
+    // Guardar tema y forzar claro
+    const prevTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    if (prevTheme !== 'light') {{
+        document.documentElement.setAttribute('data-theme', 'light');
     }}
 
-    // 2) KPIs
-    const kpisOrig = document.querySelector('.kpis');
-    if (kpisOrig) w.appendChild(clonePdfBlock(kpisOrig));
+    const restoreActions = [];
 
-    // 3) Chart funnel + tabla del funnel
-    const chartCardFunnel = document.querySelector('#tab-funnel .chart-card');
-    if (chartCardFunnel) {{
-        const cloned = clonePdfBlock(chartCardFunnel);
-        const origCanvases = chartCardFunnel.querySelectorAll('canvas');
-        const cloneCanvases = cloned.querySelectorAll('canvas');
-        origCanvases.forEach((oc, idx) => {{
-            const cc = cloneCanvases[idx];
-            if (!cc || !oc) return;
-            cc.width = oc.width; cc.height = oc.height;
-            try {{ cc.getContext('2d').drawImage(oc, 0, 0); }} catch (_) {{ }}
-            cc.style.maxHeight = '380px'; cc.style.height = 'auto';
+    // 1. Mostrar TODAS las tab-content (para que Chart.js renderice los canvas)
+    document.querySelectorAll('.tab-content').forEach(el => {{
+        const orig = el.style.display;
+        restoreActions.push(() => {{ el.style.display = orig; }});
+        el.style.display = 'block';
+    }});
+
+    // 2. Ocultar UI no relevante para PDF
+    const hideSelectors = [
+        '#theme-toggle', '#pdf-download',
+        '.tabs',
+        '.period-filter button',
+        // Tablas/cards densos que no van al PDF:
+        '#tbl-sessions', '#tbl-paths',
+        '#tbl-errcampo-cross', '#tbl-errcampo-otros',
+    ];
+    hideSelectors.forEach(sel => {{
+        document.querySelectorAll(sel).forEach(el => {{
+            const orig = el.style.display;
+            restoreActions.push(() => {{ el.style.display = orig; }});
+            el.style.display = 'none';
         }});
-        w.appendChild(cloned);
-    }}
-    const tablaFunnel = document.querySelector('#tab-funnel .card');
-    if (tablaFunnel) w.appendChild(clonePdfBlock(tablaFunnel));
+    }});
 
-    // 4) Page break
-    const br = document.createElement('div');
-    br.style.cssText = 'page-break-before:always; height:0';
-    br.className = 'html2pdf__page-break';
-    w.appendChild(br);
+    // 3. Ocultar tarjetas que CONTIENEN las tablas ocultas (encabezado + nota)
+    document.querySelectorAll('#tab-sessions .card, #tab-paths .card').forEach(el => {{
+        const orig = el.style.display;
+        restoreActions.push(() => {{ el.style.display = orig; }});
+        el.style.display = 'none';
+    }});
+    // Para tab-errcampo, ocultar las cards 2da y 3ra (cross-tab y otros)
+    const errcampoCards = document.querySelectorAll('#tab-errcampo > .card');
+    errcampoCards.forEach((el, idx) => {{
+        if (idx > 0) {{
+            const orig = el.style.display;
+            restoreActions.push(() => {{ el.style.display = orig; }});
+            el.style.display = 'none';
+        }}
+    }});
 
-    // 5) Escapes a clásica
-    const cardEscapes = document.querySelector('#tab-escapes .card');
-    if (cardEscapes) {{
-        const titulo = document.createElement('h2');
-        titulo.textContent = 'Escapes a versión clásica';
-        titulo.style.cssText = 'font-size:13pt; color:#4f6ef0; margin:8px 0 8px 0; font-weight:700';
-        w.appendChild(titulo);
-        w.appendChild(clonePdfBlock(cardEscapes));
-    }}
-
-    // 6) Segmentación por dispositivo (3 cards en grid)
-    const deviceCards = document.querySelectorAll('#tab-device .card');
-    if (deviceCards.length > 0) {{
-        const titulo = document.createElement('h2');
-        titulo.textContent = 'Segmentación por dispositivo';
-        titulo.style.cssText = 'font-size:13pt; color:#4f6ef0; margin:14px 0 8px 0; font-weight:700';
-        w.appendChild(titulo);
-        deviceCards.forEach(card => w.appendChild(clonePdfBlock(card)));
+    // 4. Re-render del chart funnel con tema claro forzado y parent ya visible
+    if (typeof renderFunnelChart === 'function' && typeof computeFunnelRows === 'function') {{
+        const rows = computeFunnelRows(SESSIONS);
+        renderFunnelChart(rows);
     }}
 
-    // 7) Page break antes de errores por campo
-    const br2 = document.createElement('div');
-    br2.style.cssText = 'page-break-before:always; height:0';
-    br2.className = 'html2pdf__page-break';
-    w.appendChild(br2);
+    // 5. Esperar a que Chart.js termine de renderizar
+    await new Promise(r => setTimeout(r, 600));
 
-    // 8) Top campos con errores (sólo el primer card del tab-errcampo)
-    const cardErrTop = document.querySelector('#tab-errcampo .card');
-    if (cardErrTop) {{
-        const titulo = document.createElement('h2');
-        titulo.textContent = 'Top campos con errores de validación';
-        titulo.style.cssText = 'font-size:13pt; color:#4f6ef0; margin:8px 0 8px 0; font-weight:700';
-        w.appendChild(titulo);
-        w.appendChild(clonePdfBlock(cardErrTop));
+    try {{
+        const target = document.querySelector('.container') || document.body;
+        const fechaArchivo = new Date().toISOString().slice(0, 10);
+        await html2pdf().from(target).set({{
+            margin: [10, 10, 12, 10],
+            filename: 'ps_flujo_' + fechaArchivo + '.pdf',
+            image: {{ type: 'jpeg', quality: 0.95 }},
+            html2canvas: {{
+                scale: 1.5, useCORS: true, backgroundColor: '#ffffff',
+                logging: false, scrollY: 0, windowWidth: target.scrollWidth,
+            }},
+            jsPDF: {{ unit: 'mm', format: 'a4', orientation: 'portrait' }},
+            pagebreak: {{ mode: ['css', 'legacy'], avoid: ['.kpi', '.chart-card', 'tr'] }},
+        }}).save();
+    }} catch (err) {{
+        console.error('Error al generar PDF', err);
+        alert('Error al generar PDF: ' + (err && err.message ? err.message : err));
+    }} finally {{
+        restoreActions.reverse().forEach(fn => {{ try {{ fn(); }} catch (_) {{ }} }});
+        if (prevTheme !== 'light') {{
+            document.documentElement.setAttribute('data-theme', prevTheme);
+        }}
+        if (typeof renderFunnelChart === 'function' && typeof computeFunnelRows === 'function') {{
+            const rows = computeFunnelRows(SESSIONS);
+            renderFunnelChart(rows);
+        }}
+        overlay.remove();
+        pdfBtn.disabled = false;
+        pdfBtn.innerHTML = labelOriginal;
     }}
-
-    return w;
-}}
-
-function clonePdfBlock(node) {{
-    const clone = node.cloneNode(true);
-    clone.style.marginBottom = '14px';
-    clone.style.pageBreakInside = 'avoid';
-    return clone;
 }}
 
 /* ─────────────────────────────────────────────────────────────
