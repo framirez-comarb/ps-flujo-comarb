@@ -1563,6 +1563,64 @@ def generate_report(
         margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border);
         font-size: .72rem; color: var(--text-dim); text-align: center;
     }}
+
+    /* ── Modo PDF (impresión) ─────────────────────────────────
+       Layout especial al imprimir: ocultar elementos interactivos
+       y mostrar SOLO los bloques visualizables (KPIs, charts, tablas
+       resumen) sin importar la pestaña activa. */
+    @media print {{
+        /* Forzar tema claro para legibilidad en papel */
+        :root {{
+            --bg: #ffffff !important; --surface: #ffffff !important;
+            --surface2: #f0f2f7 !important; --border: #d9dde5 !important;
+            --text: #1a1d27 !important; --text-dim: #4b5563 !important;
+            --accent: #4f6ef0 !important; --green: #0d9f6e !important;
+            --amber: #d97706 !important; --red: #dc2e5c !important;
+            --purple: #7c3aed !important; --cyan: #0891b2 !important;
+            --hover-tint: transparent !important;
+            --row-border-soft: #d9dde5 !important;
+            --chart-grid: #d9dde5 !important; --chart-text: #4b5563 !important;
+        }}
+        @page {{ size: A4; margin: 14mm 12mm; }}
+        body {{ padding: 0 !important; background: white !important; }}
+        .container {{ max-width: 100% !important; }}
+
+        /* Ocultar elementos interactivos */
+        .theme-toggle, #pdf-download,
+        .period-filter button, .period-filter input,
+        .tabs, .col-filter, .filter-row,
+        .sort-arrow, footer {{
+            display: none !important;
+        }}
+        .period-filter {{ font-size: .75rem; margin-top: .3rem; }}
+        .period-filter span:not(.period-info) {{ display: none !important; }}
+
+        /* Mostrar SOLO tabs con pdf-include en el PDF; el resto queda oculto */
+        .tab-content {{ display: none !important; }}
+        .tab-content.pdf-include {{ display: block !important; page-break-after: auto; }}
+        .pdf-section {{ display: block !important; page-break-inside: avoid; }}
+
+        /* Tablas dentro de pdf-include que NO queremos mostrar */
+        #pdf-hide-card-paths,
+        .pdf-hide {{ display: none !important; }}
+
+        /* Cards y charts: bordes sutiles para impresión */
+        .chart-card, .card {{
+            border: 1px solid #d9dde5 !important;
+            box-shadow: none !important;
+            page-break-inside: avoid;
+            margin-bottom: 1rem;
+        }}
+        .chart-card canvas {{ background: #fff !important; max-height: 360pt !important; }}
+
+        /* Tipografía adaptada a papel */
+        body {{ font-size: 10pt; }}
+        h1 {{ font-size: 16pt !important; }}
+        .kpi .value {{ font-size: 1.2rem !important; }}
+        .kpi .label {{ font-size: .65rem !important; }}
+        table {{ font-size: 9pt; }}
+        thead tr:first-child th {{ position: static !important; }}
+    }}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 </head>
@@ -1585,11 +1643,16 @@ def generate_report(
                 <span class="period-info" id="period-info"></span>
             </div>
         </div>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar tema"></button>
+        <div style="display:flex;flex-direction:column;gap:.5rem;align-items:flex-end">
+            <button id="pdf-download" class="theme-toggle" aria-label="Descargar PDF" title="Descargar PDF (KPIs y gráficos)">
+                <span class="theme-icon">📄</span> Descargar PDF
+            </button>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar tema"></button>
+        </div>
     </div>
 </header>
 
-<div class="kpis">
+<div class="kpis pdf-section">
     <div class="kpi">
         <div class="label">Sesiones únicas</div>
         <div class="value v1" id="kpi-total">{total_sesiones}</div>
@@ -1629,7 +1692,7 @@ def generate_report(
     <div class="tab" onclick="switchTab('sessions')">Sesiones (detalle)</div>
 </div>
 
-<div id="tab-funnel" class="tab-content active">
+<div id="tab-funnel" class="tab-content active pdf-include">
     <div class="chart-card">
         <h3>Sesiones que alcanzan cada pantalla</h3>
         <div style="position:relative;height:420px">
@@ -1674,7 +1737,7 @@ def generate_report(
     </div>
 </div>
 
-<div id="tab-escapes" class="tab-content">
+<div id="tab-escapes" class="tab-content pdf-include">
     <div class="card">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
             Sesiones que abandonaron el flujo simplificado por la versión clásica
@@ -1693,7 +1756,7 @@ def generate_report(
     </div>
 </div>
 
-<div id="tab-device" class="tab-content">
+<div id="tab-device" class="tab-content pdf-include">
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem">
         <div class="card">
             <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">Por tipo de dispositivo</h3>
@@ -1743,7 +1806,7 @@ def generate_report(
     </div>
 </div>
 
-<div id="tab-errcampo" class="tab-content">
+<div id="tab-errcampo" class="tab-content pdf-include">
     <div class="card">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
             Top campos con errores de validación
@@ -1762,7 +1825,7 @@ def generate_report(
         </table>
     </div>
 
-    <div class="card" style="margin-top:1.2rem">
+    <div class="card pdf-hide" style="margin-top:1.2rem">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
             Cross-tab: campo × pantalla (dónde se rompe cada campo)
         </h3>
@@ -1777,7 +1840,7 @@ def generate_report(
         </table>
     </div>
 
-    <div class="card" style="margin-top:1.2rem">
+    <div class="card pdf-hide" style="margin-top:1.2rem">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
             Textos sin clasificar (bucket "otros")
         </h3>
@@ -2315,6 +2378,35 @@ if (themeBtn) {{
     themeBtn.addEventListener('click', () => {{
         const current = document.documentElement.getAttribute('data-theme') || 'light';
         applyTheme(current === 'dark' ? 'light' : 'dark');
+    }});
+}}
+
+/* ─────────────────────────────────────────────────────────────
+   DESCARGA DE PDF (window.print + @media print)
+   ───────────────────────────────────────────────────────────── */
+const pdfBtn = document.getElementById('pdf-download');
+if (pdfBtn) {{
+    pdfBtn.addEventListener('click', () => {{
+        const prevTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        // Forzar tema claro para impresión (más legible en papel)
+        if (prevTheme !== 'light') {{
+            document.documentElement.setAttribute('data-theme', 'light');
+            // Re-render del chart funnel con colores del tema claro
+            const rows = computeFunnelRows(SESSIONS);
+            renderFunnelChart(rows);
+        }}
+        // Pequeña espera para que Chart.js termine de re-renderizar
+        setTimeout(() => {{
+            window.print();
+            // Restaurar tema previo después del diálogo de impresión
+            setTimeout(() => {{
+                if (prevTheme !== 'light') {{
+                    document.documentElement.setAttribute('data-theme', prevTheme);
+                    const rows = computeFunnelRows(SESSIONS);
+                    renderFunnelChart(rows);
+                }}
+            }}, 500);
+        }}, 250);
     }});
 }}
 
