@@ -2365,14 +2365,39 @@ async function generarPDF() {{
 
     const restoreActions = [];
 
-    // 1. Mostrar TODAS las tab-content (para que Chart.js renderice los canvas)
+    // 1. Reducir el ancho del container para que entre en A4 portrait (~720px útiles).
+    //    Trabajamos a 760px para tener un poquito de aire en las grids.
+    const container = document.querySelector('.container');
+    if (container) {{
+        const origCont = {{
+            maxWidth: container.style.maxWidth,
+            width: container.style.width,
+            padding: container.style.padding,
+            margin: container.style.margin,
+        }};
+        restoreActions.push(() => {{
+            container.style.maxWidth = origCont.maxWidth;
+            container.style.width = origCont.width;
+            container.style.padding = origCont.padding;
+            container.style.margin = origCont.margin;
+        }});
+        container.style.maxWidth = '760px';
+        container.style.width = '760px';
+        container.style.padding = '0';
+        container.style.margin = '0';
+    }}
+    const origBodyPadding = document.body.style.padding;
+    restoreActions.push(() => {{ document.body.style.padding = origBodyPadding; }});
+    document.body.style.padding = '0';
+
+    // 2. Mostrar TODAS las tab-content (para que Chart.js renderice los canvas)
     document.querySelectorAll('.tab-content').forEach(el => {{
         const orig = el.style.display;
         restoreActions.push(() => {{ el.style.display = orig; }});
         el.style.display = 'block';
     }});
 
-    // 2. Ocultar UI no relevante para PDF
+    // 3. Ocultar UI no relevante para PDF
     const hideSelectors = [
         '#theme-toggle', '#pdf-download',
         '.tabs',
@@ -2389,7 +2414,7 @@ async function generarPDF() {{
         }});
     }});
 
-    // 3. Ocultar tarjetas que CONTIENEN las tablas ocultas (encabezado + nota)
+    // 4. Ocultar tarjetas que CONTIENEN las tablas ocultas (encabezado + nota)
     document.querySelectorAll('#tab-sessions .card, #tab-paths .card').forEach(el => {{
         const orig = el.style.display;
         restoreActions.push(() => {{ el.style.display = orig; }});
@@ -2405,14 +2430,14 @@ async function generarPDF() {{
         }}
     }});
 
-    // 4. Re-render del chart funnel con tema claro forzado y parent ya visible
+    // 5. Re-render del chart funnel con tema claro y parent ya visible al nuevo ancho
     if (typeof renderFunnelChart === 'function' && typeof computeFunnelRows === 'function') {{
         const rows = computeFunnelRows(SESSIONS);
         renderFunnelChart(rows);
     }}
 
-    // 5. Esperar a que Chart.js termine de renderizar
-    await new Promise(r => setTimeout(r, 600));
+    // 6. Esperar a que Chart.js termine de renderizar
+    await new Promise(r => setTimeout(r, 700));
 
     try {{
         const target = document.querySelector('.container') || document.body;
@@ -2422,8 +2447,9 @@ async function generarPDF() {{
             filename: 'ps_flujo_' + fechaArchivo + '.pdf',
             image: {{ type: 'jpeg', quality: 0.95 }},
             html2canvas: {{
-                scale: 1.5, useCORS: true, backgroundColor: '#ffffff',
-                logging: false, scrollY: 0, windowWidth: target.scrollWidth,
+                scale: 2, useCORS: true, backgroundColor: '#ffffff',
+                logging: false, scrollX: 0, scrollY: 0,
+                width: 760, windowWidth: 760,
             }},
             jsPDF: {{ unit: 'mm', format: 'a4', orientation: 'portrait' }},
             pagebreak: {{ mode: ['css', 'legacy'], avoid: ['.kpi', '.chart-card', 'tr'] }},
