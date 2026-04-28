@@ -2365,8 +2365,8 @@ async function generarPDF() {{
 
     const restoreActions = [];
 
-    // 1. Reducir el ancho del container para que entre en A4 portrait (~720px útiles).
-    //    Trabajamos a 760px para tener un poquito de aire en las grids.
+    // 1. Ajustar ancho del container para A4 LANDSCAPE (~277mm útiles ≈ 1047px @ 96dpi).
+    //    Usamos 1000px para tener aire y headers anchos de tabla entren cómodos.
     const container = document.querySelector('.container');
     if (container) {{
         const origCont = {{
@@ -2381,8 +2381,8 @@ async function generarPDF() {{
             container.style.padding = origCont.padding;
             container.style.margin = origCont.margin;
         }});
-        container.style.maxWidth = '760px';
-        container.style.width = '760px';
+        container.style.maxWidth = '1000px';
+        container.style.width = '1000px';
         container.style.padding = '0';
         container.style.margin = '0';
     }}
@@ -2390,21 +2390,60 @@ async function generarPDF() {{
     restoreActions.push(() => {{ document.body.style.padding = origBodyPadding; }});
     document.body.style.padding = '0';
 
-    // 2. Mostrar TODAS las tab-content (para que Chart.js renderice los canvas)
+    // 2. Inyectar CSS para que cards, kpi-grids y filas de tabla NO se corten
+    //    entre páginas. Esto fuerza a html2pdf a empujar el elemento entero
+    //    a la página siguiente si no entra al final de la actual.
+    const pdfStyleEl = document.createElement('style');
+    pdfStyleEl.id = 'pdf-page-break-rules';
+    pdfStyleEl.textContent = (
+        '.card, .chart-card, .kpis {{ page-break-inside: avoid !important; break-inside: avoid !important; }}' +
+        'tr, thead {{ page-break-inside: avoid !important; break-inside: avoid !important; }}' +
+        // Tablas regulares (no bar-table): permitir wrap natural en palabras enteras
+        // (NO usar word-break: break-word, parte palabras por carácter)
+        'table:not(.bar-table) th, table:not(.bar-table) td {{ white-space: normal !important; }}' +
+        // Compactar tablas regulares para que entren más filas por página
+        'table:not(.bar-table) {{ font-size: 0.78rem !important; }}' +
+        'table:not(.bar-table) td, table:not(.bar-table) th {{ padding: 0.3rem 0.6rem !important; line-height: 1.35 !important; }}' +
+        // Reducir padding interno de cards en PDF
+        '.card {{ padding: 1rem !important; }}'
+    );
+    document.head.appendChild(pdfStyleEl);
+    restoreActions.push(() => {{ pdfStyleEl.remove(); }});
+
+    // 3. Cap el alto de los wrappers de bar-table a ~una página de A4 landscape
+    //    (188mm útiles ≈ 711px @ 96dpi, descontando KPIs + título + paddings ≈ 410px).
+    //    Así el card entra entero y no se corta entre páginas; los días que no
+    //    entran simplemente no se muestran (por pedido del usuario).
+    document.querySelectorAll('.bar-table-wrap').forEach(el => {{
+        const origMH = el.style.maxHeight;
+        const origO = el.style.overflow;
+        restoreActions.push(() => {{
+            el.style.maxHeight = origMH;
+            el.style.overflow = origO;
+        }});
+        el.style.maxHeight = '410px';
+        el.style.overflow = 'hidden';
+    }});
+
+    // 3b. (Detección de unidades atómicas se mueve DESPUÉS del show-tabs + charts)
+
+    // 3. Mostrar TODAS las tab-content (para que Chart.js renderice los canvas)
     document.querySelectorAll('.tab-content').forEach(el => {{
         const orig = el.style.display;
         restoreActions.push(() => {{ el.style.display = orig; }});
         el.style.display = 'block';
     }});
 
-    // 3. Ocultar UI no relevante para PDF
+    // 4. Ocultar UI no relevante para PDF
     const hideSelectors = [
         '#theme-toggle', '#pdf-download',
         '.tabs',
         '.period-filter button',
         // Tablas/cards densos que no van al PDF:
         '#tbl-sessions', '#tbl-paths',
-        '#tbl-errcampo-cross', '#tbl-errcampo-otros',
+        '#tbl-errcampo-otros',
+        // Pie de informe
+        '.container > footer', 'body > footer',
     ];
     hideSelectors.forEach(sel => {{
         document.querySelectorAll(sel).forEach(el => {{
@@ -2414,30 +2453,109 @@ async function generarPDF() {{
         }});
     }});
 
-    // 4. Ocultar tarjetas que CONTIENEN las tablas ocultas (encabezado + nota)
+    // 5. Ocultar tarjetas que CONTIENEN las tablas ocultas (encabezado + nota)
     document.querySelectorAll('#tab-sessions .card, #tab-paths .card').forEach(el => {{
         const orig = el.style.display;
         restoreActions.push(() => {{ el.style.display = orig; }});
         el.style.display = 'none';
     }});
-    // Para tab-errcampo, ocultar las cards 2da y 3ra (cross-tab y otros)
+    // Para tab-errcampo, ocultar SÓLO la 3ra card (otros). La 2da (cross-tab)
+    // se incluye al final del PDF.
     const errcampoCards = document.querySelectorAll('#tab-errcampo > .card');
     errcampoCards.forEach((el, idx) => {{
-        if (idx > 0) {{
+        if (idx >= 2) {{
             const orig = el.style.display;
             restoreActions.push(() => {{ el.style.display = orig; }});
             el.style.display = 'none';
         }}
     }});
 
-    // 5. Re-render del chart funnel con tema claro y parent ya visible al nuevo ancho
+    // 6. Re-render del chart funnel con tema claro y parent ya visible al nuevo ancho
     if (typeof renderFunnelChart === 'function' && typeof computeFunnelRows === 'function') {{
         const rows = computeFunnelRows(SESSIONS);
         renderFunnelChart(rows);
     }}
 
-    // 6. Esperar a que Chart.js termine de renderizar
+    // 7. Esperar a que Chart.js termine de renderizar
     await new Promise(r => setTimeout(r, 700));
+
+    // 8. Detectar grids horizontales (varios cards en misma fila) y forzarlos
+    //    a stackearse VERTICALMENTE (1 columna) para que cada card use el ancho
+    //    completo y las tablas internas tengan columnas legibles.
+    const horizontalGrids = new Set();
+    [...document.querySelectorAll('.container .card, .container .chart-card')]
+        .filter(c => c.getBoundingClientRect().height > 80)
+        .forEach(c => {{
+            const parent = c.parentElement;
+            const parentDisplay = getComputedStyle(parent).display;
+            const cardSibs = [...parent.children].filter(s =>
+                (s.classList.contains('card') || s.classList.contains('chart-card')) &&
+                s.getBoundingClientRect().height > 80
+            );
+            const cardYs = cardSibs.map(s => s.getBoundingClientRect().y);
+            const allSameRow = cardYs.every(y => Math.abs(y - cardYs[0]) < 5);
+            if ((parentDisplay === 'grid' || parentDisplay === 'flex') && cardSibs.length > 1 && allSameRow) {{
+                horizontalGrids.add(parent);
+            }}
+        }});
+    horizontalGrids.forEach(grid => {{
+        const orig = {{
+            display: grid.style.display,
+            gridTemplateColumns: grid.style.gridTemplateColumns,
+            flexDirection: grid.style.flexDirection,
+        }};
+        restoreActions.push(() => {{
+            grid.style.display = orig.display;
+            grid.style.gridTemplateColumns = orig.gridTemplateColumns;
+            grid.style.flexDirection = orig.flexDirection;
+        }});
+        grid.style.display = 'grid';
+        grid.style.gridTemplateColumns = '1fr';
+        grid.style.flexDirection = 'column';
+    }});
+
+    // 8b. Re-detectar atomic cards y aplicar pageBreakBefore con lógica
+    //     "fit-to-page": cards consecutivas que sumadas entran en una página
+    //     A4 landscape quedan juntas; sino se rompe página.
+    //     Threshold conservador (~620px en vez de 711) para tener buffer y
+    //     contemplar gaps + paddings + imprecisión de medición vs render PDF.
+    await new Promise(r => setTimeout(r, 100));
+    const PAGE_USABLE_PX = 620;
+    const CARD_GAP_PX = 24;
+    const atomicCards = [...document.querySelectorAll('.container .card, .container .chart-card')]
+        .filter(c => c.getBoundingClientRect().height > 80)
+        .sort((a, b) => a.getBoundingClientRect().y - b.getBoundingClientRect().y);
+    let pageAccumH = 0;
+    atomicCards.forEach((c, i) => {{
+        const h = c.getBoundingClientRect().height;
+        const origPB = c.style.pageBreakBefore;
+        const origBB = c.style.breakBefore;
+        const origPI = c.style.pageBreakInside;
+        const origBI = c.style.breakInside;
+        restoreActions.push(() => {{
+            c.style.pageBreakBefore = origPB;
+            c.style.breakBefore = origBB;
+            c.style.pageBreakInside = origPI;
+            c.style.breakInside = origBI;
+        }});
+        c.style.pageBreakInside = 'avoid';
+        c.style.breakInside = 'avoid';
+        if (i === 0) {{
+            pageAccumH = h;  // primer card: arranca página 1 (con header+kpis arriba)
+            return;
+        }}
+        // Sumar gap entre cards a la altura proyectada
+        const projectedH = pageAccumH + CARD_GAP_PX + h;
+        if (projectedH > PAGE_USABLE_PX) {{
+            // No entra en la página actual: forzar break antes de esta card
+            c.style.pageBreakBefore = 'always';
+            c.style.breakBefore = 'page';
+            pageAccumH = h;
+        }} else {{
+            // Entra: queda con la card anterior en la misma página
+            pageAccumH = projectedH;
+        }}
+    }});
 
     try {{
         const target = document.querySelector('.container') || document.body;
@@ -2449,10 +2567,10 @@ async function generarPDF() {{
             html2canvas: {{
                 scale: 2, useCORS: true, backgroundColor: '#ffffff',
                 logging: false, scrollX: 0, scrollY: 0,
-                width: 760, windowWidth: 760,
+                width: 1000,
             }},
-            jsPDF: {{ unit: 'mm', format: 'a4', orientation: 'portrait' }},
-            pagebreak: {{ mode: ['css', 'legacy'], avoid: ['.kpi', '.chart-card', 'tr'] }},
+            jsPDF: {{ unit: 'mm', format: 'a4', orientation: 'landscape' }},
+            pagebreak: {{ mode: ['css', 'legacy'], avoid: ['.kpi', '.kpis', '.chart-card', '.card', 'tr', 'thead'] }},
         }}).save();
     }} catch (err) {{
         console.error('Error al generar PDF', err);
