@@ -832,6 +832,7 @@ def build_sessions(df_eventos: pd.DataFrame) -> pd.DataFrame:
         errores_por_campo: Counter = Counter()
         errores_campo_por_paso: dict = {}
         errores_texto: list[str] = []
+        errores_ts: list[str] = []  # ISO timestamp por cada error (alineado con errores_texto)
         escape_event: str | None = None
         escape_paso: int | None = None
 
@@ -853,8 +854,19 @@ def build_sessions(df_eventos: pd.DataFrame) -> pd.DataFrame:
                 if paso_err is not None:
                     errores_por_paso[paso_err] += 1
                 texto = str(row.get("texto_del_error") or "").strip()
-                if texto and texto != "(not set)":
-                    errores_texto.append(texto)
+                if texto == "(not set)":
+                    texto = ""
+                # Append SIEMPRE (incluso vacío) para mantener alineación 1:1 con
+                # los eventos PS_error_validacion_dj de `secuencia` — necesario
+                # para la pestaña "Sesiones con errores" que correlaciona texto
+                # con paso/evento_previo via índice en sq.
+                errores_texto.append(texto)
+                # Timestamp del error (alineado 1:1 con errores_texto)
+                try:
+                    err_ts_str = row["ts"].strftime("%Y-%m-%d %H:%M:%S")
+                except Exception:
+                    err_ts_str = ""
+                errores_ts.append(err_ts_str)
                 campo = _clasificar_campo_error(texto)
                 errores_por_campo[campo] += 1
                 if paso_err is not None:
@@ -905,6 +917,7 @@ def build_sessions(df_eventos: pd.DataFrame) -> pd.DataFrame:
             "errores_por_campo":    dict(errores_por_campo),
             "errores_campo_por_paso": errores_campo_por_paso,
             "errores_texto":        errores_texto,
+            "errores_ts":           errores_ts,
             "n_volver":             n_volver,
             "secuencia":            secuencia,
             "page_paths":           page_paths_vistas,
@@ -1214,6 +1227,7 @@ def generate_report(
                 fecha_iso = str(s.get("fecha", ""))
             sessions_js.append({
                 "d":   fecha_iso,
+                "c":   str(s.get("cuit", "") or ""),
                 "pm":  int(s.get("paso_max_alcanzado", -1) or 0),
                 "st":  str(s.get("estado_final", "")),
                 "ne":  int(s.get("n_eventos", 0) or 0),
@@ -1232,6 +1246,7 @@ def generate_report(
                 "ecp": {str(k): {str(kk): int(vv) for kk, vv in (v or {}).items()}
                         for k, v in (s.get("errores_campo_por_paso") or {}).items()},
                 "et":  list(s.get("errores_texto") or []),
+                "ets": list(s.get("errores_ts") or []),
             })
     sessions_js_json = json.dumps(sessions_js, ensure_ascii=False, separators=(",", ":"))
 
@@ -1528,6 +1543,20 @@ def generate_report(
     td.num {{ text-align: right; font-family: 'JetBrains Mono', monospace; font-size: .78rem; }}
     td.mono {{ font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: var(--accent); }}
     td.path {{ font-size: .75rem; max-width: 560px; overflow: hidden; text-overflow: ellipsis; }}
+
+    /* Filtros de columna */
+    tr.filter-row th {{
+        padding: .3rem .4rem; border-bottom: 2px solid var(--border);
+    }}
+    .col-filter {{
+        width: 100%; padding: .35rem .5rem;
+        font-family: 'DM Sans', sans-serif; font-size: .75rem;
+        background: var(--surface2); color: var(--text);
+        border: 1px solid var(--border); border-radius: 6px;
+        outline: none; transition: border-color .2s;
+    }}
+    .col-filter:focus {{ border-color: var(--accent); }}
+    .col-filter::placeholder {{ color: var(--text-dim); opacity: .6; }}
     code {{ font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: var(--purple); }}
     tr:hover td {{ background: var(--hover-tint); }}
     .dif-pos   {{ color: var(--green); font-weight: 600; }}
@@ -1633,6 +1662,7 @@ def generate_report(
     <div class="tab" onclick="switchTab('device')">Segmentación por dispositivo</div>
     <div class="tab" onclick="switchTab('errcampo')">Errores por campo</div>
     <div class="tab" onclick="switchTab('sessions')">Sesiones (detalle)</div>
+    <div class="tab" onclick="switchTab('errsesiones')">Sesiones con errores (<span id="tab-count-errsesiones">0</span>)</div>
 </div>
 
 <div id="tab-funnel" class="tab-content active">
@@ -1817,8 +1847,48 @@ def generate_report(
                     <th data-col="7">Duración <span class="sort-arrow">&#x25B2;</span></th>
                     <th data-col="8">Secuencia <span class="sort-arrow">&#x25B2;</span></th>
                 </tr>
+                <tr class="filter-row">
+                    <th><input class="col-filter" data-col="0" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="1" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="2" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="3" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="4" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="5" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="6" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="7" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="8" placeholder="Filtrar..."></th>
+                </tr>
             </thead>
             <tbody>{sess_rows}</tbody>
+        </table>
+    </div>
+</div>
+
+<div id="tab-errsesiones" class="tab-content">
+    <div class="card">
+        <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
+            Sesiones con errores de validación &mdash; una fila por cada error (timestamp, CUIT, estado final, pantalla, evento previo y texto)
+        </h3>
+        <table id="tbl-errsesiones">
+            <thead>
+                <tr>
+                    <th data-col="0" class="sort-active" data-dir="desc">Timestamp <span class="sort-arrow">&#x25BC;</span></th>
+                    <th data-col="1">CUIT <span class="sort-arrow">&#x25B2;</span></th>
+                    <th data-col="2">Estado final <span class="sort-arrow">&#x25B2;</span></th>
+                    <th data-col="3">Pantalla <span class="sort-arrow">&#x25B2;</span></th>
+                    <th data-col="4">Evento previo <span class="sort-arrow">&#x25B2;</span></th>
+                    <th data-col="5">Texto del error <span class="sort-arrow">&#x25B2;</span></th>
+                </tr>
+                <tr class="filter-row">
+                    <th><input class="col-filter" data-col="0" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="1" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="2" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="3" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="4" placeholder="Filtrar..."></th>
+                    <th><input class="col-filter" data-col="5" placeholder="Filtrar..."></th>
+                </tr>
+            </thead>
+            <tbody id="errsesionesBody"></tbody>
         </table>
     </div>
 </div>
@@ -2245,6 +2315,127 @@ function renderErrCampo(sessions) {{
 }}
 
 /* ─────────────────────────────────────────────────────────────
+   SESIONES CON ERRORES — una fila por error (paso/evento_previo/texto)
+   ───────────────────────────────────────────────────────────── */
+function _pasoDesdeEvento(ev) {{
+    // Replica de _paso_desde_evento (ps_flujo.py:586) para JS.
+    let m = /^PS_boton_continuar_(\d+)$/.exec(ev);
+    if (m) return parseInt(m[1], 10);
+    m = /^PS_boton_volver_(\d+)$/.exec(ev);
+    if (m) return parseInt(m[1], 10);
+    if (ev === 'PS_boton_presentar_y_salir' || ev === 'PS_boton_presentar_y_generar_pago' || ev === 'PS_boton_guardar_borrador_y_salir') return 6;
+    if (ev === 'PS_boton_generar_volante_de_pago') return 7;
+    if (['PS_editar_datos_impuesto_determinado','PS_guardar_datos_impuesto_determinado','PS_cancelar_datos_impuesto_determinado','PS_combo_box_seleccionar_tratamiento_fiscal'].indexOf(ev) >= 0) return 3;
+    if (ev === 'PS_boton_ir_dj_mensual_desde_deducciones') return 4;
+    if (ev === 'PS_boton_ir_dj_mensual_desde_debitos_y_creditos') return 5;
+    return null;
+}}
+
+function _estadoCls(estado) {{
+    if (estado === 'completó_y_salió' || estado === 'completó_y_pagó') return 'estado-ok';
+    if (estado === 'guardó_borrador' || estado === 'sólo_visitó' || estado === 'salió_al_listado') return 'estado-warn';
+    if ((estado || '').startsWith('escapó_')) return 'estado-warn';
+    return 'estado-bad';
+}}
+
+function renderErrSessions(sessions) {{
+    const tbody = document.getElementById('errsesionesBody');
+    if (!tbody) return;
+    const rows = [];
+    let sessionCount = 0;
+    for (const s of sessions) {{
+        if ((s.er || 0) <= 0) continue;
+        sessionCount++;
+        const sq = s.sq || [];
+        const textos = s.et || [];
+        let textoIdx = 0;
+        for (let i = 0; i < sq.length; i++) {{
+            if (sq[i] !== 'PS_error_validacion_dj') continue;
+            // Paso: walk back para encontrar el evento más reciente con paso conocido
+            let paso = -1;
+            for (let j = i - 1; j >= 0; j--) {{
+                const p = _pasoDesdeEvento(sq[j]);
+                if (p !== null) {{ paso = p; break; }}
+            }}
+            // Evento previo: el primer evento NO-error mirando hacia atrás. Si hay
+            // cascadas de errores (varios PS_error_validacion_dj seguidos), queremos
+            // saber qué acción del usuario disparó la cascada, no el error anterior.
+            let eventoPrevio = '';
+            for (let j = i - 1; j >= 0; j--) {{
+                if (sq[j] !== 'PS_error_validacion_dj') {{ eventoPrevio = sq[j]; break; }}
+            }}
+            const texto = (textoIdx < textos.length) ? textos[textoIdx] : '';
+            const tsArr = s.ets || [];
+            const tsErr = (textoIdx < tsArr.length && tsArr[textoIdx]) ? tsArr[textoIdx] : (s.d || '');
+            textoIdx++;
+            rows.push({{
+                ts: tsErr,
+                cuit: s.c || '',
+                estado: s.st || '',
+                paso: paso,
+                eventoPrevio: eventoPrevio,
+                texto: texto,
+            }});
+        }}
+    }}
+    // Orden: timestamp desc, paso asc
+    rows.sort((a, b) => (b.ts).localeCompare(a.ts) || (a.paso - b.paso));
+    let html = '';
+    for (const r of rows) {{
+        const pantalla = (r.paso >= 0 && r.paso < PASOS_NOMBRES.length) ? PASOS_NOMBRES[r.paso] : '—';
+        const evLabel = r.eventoPrevio ? (EVENT_LABELS[r.eventoPrevio] || r.eventoPrevio) : '—';
+        const cls = _estadoCls(r.estado);
+        const cuitDisp = r.cuit || '<span style="color:var(--text-dim)">(sin CUIT)</span>';
+        html += '<tr>' +
+            '<td class="mono">' + esc(r.ts) + '</td>' +
+            '<td class="mono">' + (r.cuit ? esc(r.cuit) : cuitDisp) + '</td>' +
+            '<td class="' + cls + '">' + esc(r.estado) + '</td>' +
+            '<td>' + esc(pantalla) + '</td>' +
+            '<td>' + esc(evLabel) + '</td>' +
+            '<td class="path" style="max-width:600px">' + (r.texto ? esc(r.texto) : '<span style="color:var(--text-dim)">(sin texto)</span>') + '</td>' +
+            '</tr>';
+    }}
+    if (!html) {{
+        html = '<tr><td colspan="6" style="color:var(--text-dim);text-align:center">Sin sesiones con errores en el período</td></tr>';
+    }}
+    tbody.innerHTML = html;
+    const counterEl = document.getElementById('tab-count-errsesiones');
+    if (counterEl) counterEl.textContent = sessionCount;
+    // Reaplicar filtros de columna por si hay valores activos (la tabla se regeneró)
+    const tbl = document.getElementById('tbl-errsesiones');
+    if (tbl) applyColFilters(tbl);
+}}
+
+/* ─────────────────────────────────────────────────────────────
+   FILTROS DE COLUMNA (por tabla)
+   ───────────────────────────────────────────────────────────── */
+function applyColFilters(table) {{
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+    const filters = table.querySelectorAll('thead .col-filter');
+    tbody.querySelectorAll('tr').forEach(row => {{
+        const cells = row.querySelectorAll('td');
+        let show = true;
+        filters.forEach(f => {{
+            const col = parseInt(f.dataset.col, 10);
+            const val = (f.value || '').toLowerCase();
+            if (val && cells[col]) {{
+                const text = cells[col].textContent.toLowerCase();
+                if (text.indexOf(val) === -1) show = false;
+            }}
+        }});
+        row.style.display = show ? '' : 'none';
+    }});
+}}
+
+document.querySelectorAll('.col-filter').forEach(input => {{
+    input.addEventListener('input', e => {{
+        const t = e.target.closest('table');
+        if (t) applyColFilters(t);
+    }});
+}});
+
+/* ─────────────────────────────────────────────────────────────
    TABLA DE SESIONES — filtrar visibilidad por fecha
    ───────────────────────────────────────────────────────────── */
 function renderSessionsVisibility(desde, hasta) {{
@@ -2288,6 +2479,7 @@ function applyFilters() {{
     renderDeviceTable(filtered, 'os', 'tbl-device-os');
     renderDeviceTable(filtered, 'br', 'tbl-device-browser');
     renderErrCampo(filtered);
+    renderErrSessions(filtered);
     renderSessionsVisibility(desde, hasta);
     updatePeriodInfo(filtered.length, desde, hasta);
 }}
