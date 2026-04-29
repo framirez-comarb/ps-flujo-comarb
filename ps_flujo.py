@@ -1566,6 +1566,10 @@ def generate_report(
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
+<!-- html2pdf bundles html2canvas+jsPDF internally pero no los re-exporta; los cargamos
+     standalone para usarlos directo desde generarPDF() (captura per-page-group). -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -1599,10 +1603,6 @@ def generate_report(
     <div class="kpi">
         <div class="label">Sesiones únicas</div>
         <div class="value v1" id="kpi-total">{total_sesiones}</div>
-    </div>
-    <div class="kpi">
-        <div class="label">Con al menos 1 evento PS</div>
-        <div class="value v6" id="kpi-con-eventos">{total_con_eventos}</div>
     </div>
     <div class="kpi">
         <div class="label">Completaron</div>
@@ -2325,17 +2325,19 @@ if (themeBtn) {{
 }}
 
 /* ─────────────────────────────────────────────────────────────
-   DESCARGA DE PDF (vía html2pdf.js)
-   Approach: mostrar todas las pestañas (para que Chart.js renderice
-   todos los canvas), ocultar UI no relevante (tabs, filtros, tablas
-   grandes de detalle), y rasterizar el container completo.
-   Mostramos un overlay para que el usuario no vea el layout shift.
+   DESCARGA DE PDF (html2canvas + jsPDF, captura per-page-group)
+   Approach: mostrar todas las pestañas (Chart.js renderiza canvases),
+   ocultar UI no relevante, ejecutar la fit-to-page logic que decide qué
+   cards van juntas, y luego capturar cada page-group con html2canvas +
+   armar el PDF con jsPDF directamente. Evita el slicing de canvas de
+   html2pdf que dejaba contenido pegado al borde inferior con whitespace
+   al top en las páginas que arrancaban con cards cortas.
    ───────────────────────────────────────────────────────────── */
 const pdfBtn = document.getElementById('pdf-download');
 if (pdfBtn) {{
     pdfBtn.addEventListener('click', () => {{
-        if (typeof html2pdf === 'undefined') {{
-            alert('html2pdf.js no cargó. Revisá tu conexión a internet.');
+        if (typeof html2canvas === 'undefined' || (typeof window.jspdf === 'undefined' && typeof window.jsPDF === 'undefined')) {{
+            alert('html2canvas / jsPDF no cargaron. Revisá tu conexión a internet.');
             return;
         }}
         generarPDF();
@@ -2558,20 +2560,99 @@ async function generarPDF() {{
     }});
 
     try {{
-        const target = document.querySelector('.container') || document.body;
+        // === Per-page-group capture con html2canvas + jsPDF ===
+        // Reemplaza html2pdf().from().save() para evitar el slicing de canvas
+        // que dejaba contenido pegado al borde inferior con whitespace al top.
+        // La fit-to-page logic de arriba ya seteó pageBreakBefore='always' en
+        // las cards que arrancan página nueva. Acá agrupamos por esos markers,
+        // capturamos cada grupo (cards stackeadas + header en pág 1) como UNA
+        // composición y la centramos en la página A4 landscape.
+
+        const headerEl = document.querySelector('header');
+        // .kpis no está en atomicCards (selector pide .card/.chart-card) pero
+        // tiene que ir en página 1 junto al header.
+        const kpisEl = document.querySelector('.container .kpis');
+        const hasHeaderPage = !!(headerEl || kpisEl);
+
+        // Página 1 es header+kpis sola (sin atomic cards). Las atomicCards
+        // arrancan en página 2. Esto se logra reservando una entrada vacía
+        // al frente de pageGroups que el loop interpreta como "header page".
+        const pageGroups = [];
+        if (hasHeaderPage) pageGroups.push([]);
+
+        // Reagrupar atomicCards por pageBreakBefore markers
+        let currentGroup = [];
+        atomicCards.forEach((c, i) => {{
+            if (i === 0) {{ currentGroup = [c]; return; }}
+            if (c.style.pageBreakBefore === 'always') {{
+                if (currentGroup.length) pageGroups.push(currentGroup);
+                currentGroup = [c];
+            }} else {{
+                currentGroup.push(c);
+            }}
+        }});
+        if (currentGroup.length) pageGroups.push(currentGroup);
+
+        // Helper: html2canvas wrapper consistente
+        const captureEl = async (el) => await html2canvas(el, {{
+            scale: 2, useCORS: true, backgroundColor: '#ffffff',
+            logging: false, scrollX: 0, scrollY: 0,
+            windowWidth: 1000,
+        }});
+
+        // Setup PDF
+        const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+        const pdf = new jsPDFCtor({{ unit: 'mm', format: 'a4', orientation: 'landscape' }});
+        const pageW = 297, pageH = 210;
+        const margin = 10;
+        const usableW = pageW - 2 * margin; // 277mm
+        const usableH = pageH - 2 * margin; // 190mm
+        const cardGap_mm = 4;
+
+        let isFirstPage = true;
+        const startPage = () => {{
+            if (!isFirstPage) pdf.addPage();
+            isFirstPage = false;
+        }};
+
+        // Stack de cards (1 o más) en una página, centrado verticalmente como bloque
+        const placeStack = (canvases) => {{
+            const dims = canvases.map(canvas => {{
+                const w = usableW;
+                const h = w * (canvas.height / canvas.width);
+                return {{ canvas, w, h }};
+            }});
+            const totalH = dims.reduce((acc, d) => acc + d.h, 0) + cardGap_mm * (dims.length - 1);
+            // Si excede usableH, escalar todo el bloque proporcionalmente
+            const scale = totalH > usableH ? (usableH / totalH) : 1;
+            const scaledTotalH = totalH * scale;
+            let y = margin + (usableH - scaledTotalH) / 2;
+            dims.forEach(d => {{
+                const w_mm = d.w * scale;
+                const h_mm = d.h * scale;
+                const x_mm = (pageW - w_mm) / 2;
+                const img = d.canvas.toDataURL('image/jpeg', 0.95);
+                pdf.addImage(img, 'JPEG', x_mm, y, w_mm, h_mm);
+                y += h_mm + cardGap_mm * scale;
+            }});
+        }};
+
+        // Procesar cada page-group
+        for (let g = 0; g < pageGroups.length; g++) {{
+            const group = pageGroups[g];
+            const elementsToCapture = (g === 0 && hasHeaderPage)
+                ? [headerEl, kpisEl].filter(Boolean)
+                : group;
+            const canvases = [];
+            for (const el of elementsToCapture) {{
+                canvases.push(await captureEl(el));
+            }}
+            startPage();
+            placeStack(canvases);
+        }}
+
         const fechaArchivo = new Date().toISOString().slice(0, 10);
-        await html2pdf().from(target).set({{
-            margin: [10, 10, 12, 10],
-            filename: 'ps_flujo_' + fechaArchivo + '.pdf',
-            image: {{ type: 'jpeg', quality: 0.95 }},
-            html2canvas: {{
-                scale: 2, useCORS: true, backgroundColor: '#ffffff',
-                logging: false, scrollX: 0, scrollY: 0,
-                width: 1000,
-            }},
-            jsPDF: {{ unit: 'mm', format: 'a4', orientation: 'landscape' }},
-            pagebreak: {{ mode: ['css', 'legacy'], avoid: ['.kpi', '.kpis', '.chart-card', '.card', 'tr', 'thead'] }},
-        }}).save();
+        pdf.save('ps_flujo_' + fechaArchivo + '.pdf');
     }} catch (err) {{
         console.error('Error al generar PDF', err);
         alert('Error al generar PDF: ' + (err && err.message ? err.message : err));
