@@ -1083,11 +1083,16 @@ def generate_report(
         completaron = int(vc.get("completó_y_salió", 0) + vc.get("completó_y_pagó", 0))
         guardaron_borrador = int(vc.get("guardó_borrador", 0))
         # Tier C4: escapó_* es familia, sumar todos los estados que empiezan con "escapó_"
+        # "Escaparon" ahora incluye también "salió_al_listado" — es otro tipo de
+        # salida del flujo simplificado (a la pantalla del listado de DDJJ),
+        # equivalente conceptualmente a un escape.
         escaparon = int(sum(v for k, v in vc.items() if str(k).startswith("escapó_")))
-        # Compat hacia atrás: el estado viejo "escapó_a_clásica" también cuenta
         salio_al_listado = int(vc.get("salió_al_listado", 0))
+        escaparon += salio_al_listado
         solo_visitaron = int(vc.get("sólo_visitó", 0))
-        abandonaron = total_sesiones - completaron - escaparon - solo_visitaron - guardaron_borrador - salio_al_listado
+        # "No terminaron" = abandonó_* + sólo_visitó. El cálculo es por resta para
+        # cuadrar exacto con el total y absorber cualquier estado nuevo no listado.
+        abandonaron = total_sesiones - completaron - escaparon - guardaron_borrador
     tasa_conversion = (
         round(100 * completaron / total_con_eventos, 1)
         if total_con_eventos else 0.0
@@ -1147,11 +1152,14 @@ def generate_report(
     if not paths_rows:
         paths_rows = '<tr><td colspan="2" style="color:var(--text-dim);text-align:center">Sin abandonos registrados</td></tr>'
 
-    # ── Tabla "Escapes a versión clásica" ──
-    # Tier C4: el estado_final ahora puede ser escapó_desde_* o escapó_a_clásica (compat).
+    # ── Tabla "Escapes" ──
+    # Incluye TODAS las salidas del flujo simplificado: escapó_* (a clásica)
+    # y salió_al_listado (al listado de DDJJ). Ambas son "el usuario abandonó
+    # el flujo simplificado por otra pantalla", solo difieren en destino.
     escapes_counter: Counter = Counter()
     if not df_sesiones.empty:
-        mask_escape = df_sesiones["estado_final"].astype(str).str.startswith("escapó_")
+        st_str = df_sesiones["estado_final"].astype(str)
+        mask_escape = st_str.str.startswith("escapó_") | (st_str == "salió_al_listado")
         for _, s in df_sesiones[mask_escape].iterrows():
             escapes_counter[(s["escape_paso"], s["escape_event"])] += 1
     escapes_rows = ""
@@ -1643,12 +1651,12 @@ def generate_report(
         <div class="value v5" id="kpi-borrador">{guardaron_borrador}</div>
     </div>
     <div class="kpi">
-        <div class="label">Escaparon a clásica</div>
+        <div class="label">Escaparon</div>
         <div class="value v3" id="kpi-escaparon">{escaparon}</div>
     </div>
     <div class="kpi">
-        <div class="label">Abandonaron</div>
-        <div class="value v4" id="kpi-abandonaron">{abandonaron}</div>
+        <div class="label">No terminaron</div>
+        <div class="value v4" id="kpi-no-terminaron">{abandonaron}</div>
     </div>
     <div class="kpi">
         <div class="label">Tasa conversión</div>
@@ -1659,7 +1667,7 @@ def generate_report(
 <div class="tabs">
     <div class="tab active" onclick="switchTab('funnel')">Funnel por pantalla</div>
     <div class="tab" onclick="switchTab('paths')">Caminos de abandono</div>
-    <div class="tab" onclick="switchTab('escapes')">Escapes a clásica</div>
+    <div class="tab" onclick="switchTab('escapes')">Escapes</div>
     <div class="tab" onclick="switchTab('device')">Segmentación por dispositivo</div>
     <div class="tab" onclick="switchTab('errcampo')">Errores por campo</div>
     <div class="tab" onclick="switchTab('sessions')">Sesiones (detalle)</div>
@@ -1717,7 +1725,7 @@ def generate_report(
 <div id="tab-escapes" class="tab-content">
     <div class="card">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
-            Sesiones que abandonaron el flujo simplificado por la versión clásica
+            Sesiones que abandonaron el flujo simplificado (versión clásica o listado de DDJJ)
         </h3>
         <table id="tbl-escapes">
             <thead>
@@ -2000,17 +2008,16 @@ function filterByDate(desde, hasta) {{
    ───────────────────────────────────────────────────────────── */
 function renderKPIs(sessions) {{
     const total = sessions.length;
-    let con_eventos = 0, completaron = 0, guardaron = 0, escaparon = 0,
-        solo_visitaron = 0, salio_listado = 0;
+    let con_eventos = 0, completaron = 0, guardaron = 0, escaparon = 0;
     for (const s of sessions) {{
         if (s.ne > 0) con_eventos++;
         if (STATES_COMPLETE.has(s.st)) completaron++;
         else if (s.st === 'guardó_borrador') guardaron++;
-        else if (s.st.startsWith('escapó_')) escaparon++;
-        else if (s.st === 'sólo_visitó') solo_visitaron++;
-        else if (s.st === 'salió_al_listado') salio_listado++;
+        // Escapó incluye salió_al_listado (otro tipo de salida del flujo)
+        else if (s.st.startsWith('escapó_') || s.st === 'salió_al_listado') escaparon++;
     }}
-    const abandonaron = total - completaron - escaparon - solo_visitaron - guardaron - salio_listado;
+    // No terminaron = total - lo demás (= abandonó_* + sólo_visitó residuales)
+    const noTerminaron = total - completaron - escaparon - guardaron;
     const tasa = con_eventos ? (100 * completaron / con_eventos) : 0;
     const set = (id, v) => {{ const el = document.getElementById(id); if (el) el.textContent = v; }};
     set('kpi-total', total);
@@ -2018,7 +2025,7 @@ function renderKPIs(sessions) {{
     set('kpi-completaron', completaron);
     set('kpi-borrador', guardaron);
     set('kpi-escaparon', escaparon);
-    set('kpi-abandonaron', abandonaron);
+    set('kpi-no-terminaron', noTerminaron);
     set('kpi-conversion', fmt1(tasa) + '%');
 }}
 
@@ -2201,7 +2208,8 @@ function renderSankey(sessions) {{
         for (let i = 0; i <= pm; i++) llegaron[i]++;
         const st = s.st || '';
         const ep = (typeof s.ep === 'number') ? s.ep : -1;
-        if (st.startsWith('escapó_')) {{
+        if (st.startsWith('escapó_') || st === 'salió_al_listado') {{
+            // salió_al_listado: cuenta como escape (otro tipo de salida del flujo)
             const idx = (ep >= 0 && ep < N) ? ep : pm;
             escapeOut[idx]++;
         }} else if (st === 'completó_y_pagó') {{
@@ -2245,7 +2253,7 @@ function renderSankey(sessions) {{
         const txt = overrides[i] || PASOS_NOMBRES[i] || '';
         labels.push('Paso ' + i + '<br>' + txt);
     }}
-    labels.push('✓ Completó', '→ Escapó<br>a clásica', '✗ No terminó');
+    labels.push('✓ Completó', '→ Escapó', '✗ No terminó');
     const IDX_COMPL = N, IDX_ESC = N + 1, IDX_ABAN = N + 2;
 
     // Background del card y color de texto desde CSS variables (responde al tema)
@@ -2343,7 +2351,8 @@ function renderEscapes(sessions) {{
     if (!tbody) return;
     const counter = new Map();
     for (const s of sessions) {{
-        if (!s.st.startsWith('escapó_')) continue;
+        // Incluye también salió_al_listado (otro tipo de salida del flujo)
+        if (!s.st.startsWith('escapó_') && s.st !== 'salió_al_listado') continue;
         if (!s.ee) continue;
         const key = s.ep + '::' + s.ee;
         counter.set(key, (counter.get(key) || 0) + 1);
