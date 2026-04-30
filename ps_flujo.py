@@ -1842,6 +1842,16 @@ def generate_report(
 </div>
 
 <div id="tab-sessions" class="tab-content">
+    <style>
+        /* Ocultar columna 'Paso máx' y rebalancear anchos para dar más espacio a 'Secuencia' */
+        #tbl-sessions th:nth-child(3),
+        #tbl-sessions td:nth-child(3) {{ display: none; }}
+        #tbl-sessions th, #tbl-sessions td {{ white-space: nowrap; }}
+        #tbl-sessions td.path {{ white-space: normal; max-width: none; min-width: 540px; font-size: .74rem; line-height: 1.4; }}
+        #tbl-sessions td.mono {{ font-size: .72rem; }}
+        #tbl-sessions td.num  {{ font-size: .76rem; padding: .5rem .45rem; }}
+        #tbl-sessions th       {{ padding: .55rem .5rem; }}
+    </style>
     <div class="card">
         <h3 style="font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.8rem">
             Detalle por sesión (máx. 2000 filas; orden reciente → antiguo)
