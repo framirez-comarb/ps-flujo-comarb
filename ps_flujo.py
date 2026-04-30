@@ -1594,6 +1594,7 @@ def generate_report(
     }}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js@2.35.2/dist/plotly.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
 <!-- html2pdf bundles html2canvas+jsPDF internally pero no los re-exporta; los cargamos
      standalone para usarlos directo desde generarPDF() (captura per-page-group). -->
@@ -1667,10 +1668,13 @@ def generate_report(
 
 <div id="tab-funnel" class="tab-content active">
     <div class="chart-card">
-        <h3>Sesiones que alcanzan cada pantalla</h3>
-        <div style="position:relative;height:420px">
-            <canvas id="chartFunnel"></canvas>
-        </div>
+        <h3>Diagrama de flujo (Sankey)</h3>
+        <div id="sankey-funnel" style="height:540px"></div>
+    </div>
+
+    <div class="chart-card">
+        <h3>Errores por pantalla, segmentado por campo</h3>
+        <div id="chart-errores-stacked" style="height:460px"></div>
     </div>
 
     <div class="card">
@@ -1966,7 +1970,6 @@ const EVENTO_FINAL_PAGO = 'PS_boton_generar_volante_de_pago';
 const STATES_COMPLETE = new Set(['completó_y_salió', 'completó_y_pagó']);
 
 let SESSIONS = SESSIONS_ALL;        // ventana activa (se actualiza al filtrar)
-let _funnelChart = null;
 
 /* ─────────────────────────────────────────────────────────────
    UTILITIES
@@ -2072,49 +2075,240 @@ function renderFunnelTable(rows) {{
     tbody.innerHTML = html;
 }}
 
-function renderFunnelChart(rows) {{
-    const style = getComputedStyle(document.documentElement);
-    const gridColor = style.getPropertyValue('--chart-grid').trim() || '#2e3345';
-    const textColor = style.getPropertyValue('--chart-text').trim() || '#8b90a5';
-    Chart.defaults.color = textColor;
+/* ─────────────────────────────────────────────────────────────
+   ERRORES POR PANTALLA, SEGMENTADO POR CAMPO (stacked bar)
+   ───────────────────────────────────────────────────────────── */
+function renderErroresStacked(sessions) {{
+    const container = document.getElementById('chart-errores-stacked');
+    if (!container || typeof Plotly === 'undefined') return;
 
-    const canvas = document.getElementById('chartFunnel');
-    if (!canvas) return;
-    if (_funnelChart) {{ _funnelChart.destroy(); _funnelChart = null; }}
+    // Agregamos errores_campo_por_paso a través de todas las sesiones.
+    // s.ecp = {{paso_str: {{campo_str: count}}}}
+    const N = 8;
+    const camposByPaso = {{}};  // {{campo: [count_paso0, ..., count_paso7]}}
+    for (const s of sessions) {{
+        if (!s.ecp) continue;
+        for (const pasoStr in s.ecp) {{
+            const paso = parseInt(pasoStr, 10);
+            if (isNaN(paso) || paso < 0 || paso >= N) continue;
+            const mapping = s.ecp[pasoStr] || {{}};
+            for (const campo in mapping) {{
+                if (!camposByPaso[campo]) camposByPaso[campo] = new Array(N).fill(0);
+                camposByPaso[campo][paso] += mapping[campo] || 0;
+            }}
+        }}
+    }}
 
-    const labels = rows.map((r, i) => 'Paso ' + i + ' · ' + r.pantalla);
-    const valuesL = rows.map(r => r.llegaron);
-    const valuesE = rows.map(r => r.errores);
-    const valuesV = rows.map(r => r.volver);
-    const valuesEs = rows.map(r => r.escape);
-    const dropoffs = rows.map(r => fmt1(r.drop_off));
+    // Lista de campos ordenada por total descendente (los más frecuentes arriba en la legend)
+    const camposList = Object.keys(camposByPaso).map(campo => {{
+        const vals = camposByPaso[campo];
+        const total = vals.reduce((a, b) => a + b, 0);
+        return {{ campo, vals, total }};
+    }}).sort((a, b) => b.total - a.total);
 
-    _funnelChart = new Chart(canvas, {{
-        type: 'bar',
-        data: {{
-            labels: labels,
-            datasets: [
-                {{label: 'Sesiones que llegaron', data: valuesL, backgroundColor: '#6c8affcc', borderColor: '#6c8aff', borderWidth: 1, borderRadius: 4}},
-                {{label: 'Errores en paso',       data: valuesE, backgroundColor: '#ef5678cc', borderColor: '#ef5678', borderWidth: 1, borderRadius: 4}},
-                {{label: 'Back (volver)',         data: valuesV, backgroundColor: '#f59e42cc', borderColor: '#f59e42', borderWidth: 1, borderRadius: 4}},
-                {{label: 'Escapes a clásica',     data: valuesEs, backgroundColor: '#a78bfacc', borderColor: '#a78bfa', borderWidth: 1, borderRadius: 4}},
-            ],
+    // Paleta D3 category10 (modificada) — máxima distinción categórica.
+    // El primer color queda como #ef5678 (rosa original) porque corresponde al
+    // campo más frecuente (impuesto_determinado.total_distribuido); el resto
+    // del palette evita rojos/rosas para que nada se confunda con él.
+    const COLORS = [
+        '#ef5678',  // rosa (original) — impuesto_determinado.total_distribuido
+        '#ff7f0e',  // naranja
+        '#2ca02c',  // verde
+        '#1f77b4',  // azul
+        '#9467bd',  // púrpura
+        '#8c564b',  // marrón
+        '#17becf',  // cyan
+        '#7f7f7f',  // gris
+        '#bcbd22',  // oliva
+        '#aec7e8',  // azul claro (reserva)
+    ];
+
+    // Pasos labels (mismo override de Sankey para el más largo)
+    const PASO_LABEL_OVERRIDES = {{ 0: 'Jurisdicciones' }};
+    const pasosLabels = [];
+    for (let i = 0; i < N; i++) {{
+        const txt = PASO_LABEL_OVERRIDES[i] || PASOS_NOMBRES[i] || '';
+        pasosLabels.push('Paso ' + i + ' · ' + txt);
+    }}
+
+    const traces = camposList.map((c, i) => ({{
+        type: 'bar', orientation: 'h',
+        x: c.vals, y: pasosLabels,
+        name: c.campo,
+        marker: {{ color: COLORS[i % COLORS.length], line: {{ color: 'rgba(0,0,0,0)', width: 0 }} }},
+        hovertemplate: '%{{y}}<br>' + c.campo + ': <b>%{{x}}</b><extra></extra>',
+    }}));
+
+    // Tema → bg, texto, grid
+    const card = container.closest('.chart-card') || container;
+    const cardBg = getComputedStyle(card).backgroundColor || 'rgb(26, 29, 39)';
+    const styleRoot = getComputedStyle(document.documentElement);
+    const textColor = (styleRoot.getPropertyValue('--text') || '#e4e6f0').trim();
+    const gridColor = (styleRoot.getPropertyValue('--chart-grid') || '#2e3345').trim();
+
+    Plotly.react(container, traces, {{
+        barmode: 'stack',
+        paper_bgcolor: cardBg,
+        plot_bgcolor: cardBg,
+        font: {{ family: 'DM Sans', size: 11, color: textColor }},
+        margin: {{ l: 200, r: 30, t: 10, b: 60 }},
+        xaxis: {{ gridcolor: gridColor, zerolinecolor: gridColor, title: {{ text: 'Cantidad de errores' }} }},
+        yaxis: {{ autorange: 'reversed', showgrid: false, zeroline: false, automargin: true }},
+        legend: {{ orientation: 'h', y: -0.18, x: 0, font: {{ size: 10 }} }},
+    }}, {{ displayModeBar: false, responsive: true }});
+}}
+
+/* ─────────────────────────────────────────────────────────────
+   SANKEY DE FLUJO POR PANTALLA
+   ───────────────────────────────────────────────────────────── */
+// Pre-blend de un rgba(...) sobre un color de fondo (rgb(...) o #rrggbb).
+// Devuelve rgba(R,G,B,1.0) sólido con el tono visualmente equivalente al
+// rgba transparente original sobre ese fondo. Útil para que un flujo sólido
+// matchee visualmente al mismo flujo transparente de al lado.
+function _blendOverBg(rgbaStr, bgStr) {{
+    const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/.exec(rgbaStr);
+    if (!m) return rgbaStr;
+    const fr = parseInt(m[1]), fg = parseInt(m[2]), fb = parseInt(m[3]);
+    const fa = m[4] !== undefined ? parseFloat(m[4]) : 1;
+    let br, bg2, bb;
+    if (bgStr.startsWith('#')) {{
+        br = parseInt(bgStr.slice(1, 3), 16);
+        bg2 = parseInt(bgStr.slice(3, 5), 16);
+        bb = parseInt(bgStr.slice(5, 7), 16);
+    }} else {{
+        const bm = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(bgStr);
+        if (!bm) return rgbaStr;
+        br = parseInt(bm[1]); bg2 = parseInt(bm[2]); bb = parseInt(bm[3]);
+    }}
+    const r = Math.round(fa * fr + (1 - fa) * br);
+    const g = Math.round(fa * fg + (1 - fa) * bg2);
+    const b = Math.round(fa * fb + (1 - fa) * bb);
+    return 'rgba(' + r + ',' + g + ',' + b + ',1.0)';
+}}
+
+function renderSankey(sessions) {{
+    const container = document.getElementById('sankey-funnel');
+    if (!container || typeof Plotly === 'undefined') return;
+
+    const N = 8;
+    const llegaron = new Array(N).fill(0);
+    const escapeOut = new Array(N).fill(0);
+    const compOut = new Array(N).fill(0);
+    const noTermOut = new Array(N).fill(0);
+
+    for (const s of sessions) {{
+        const pm = Math.max(0, Math.min(N - 1, parseInt(s.pm, 10) || 0));
+        for (let i = 0; i <= pm; i++) llegaron[i]++;
+        const st = s.st || '';
+        const ep = (typeof s.ep === 'number') ? s.ep : -1;
+        if (st.startsWith('escapó_')) {{
+            const idx = (ep >= 0 && ep < N) ? ep : pm;
+            escapeOut[idx]++;
+        }} else if (st === 'completó_y_pagó') {{
+            compOut[Math.min(pm, 7)]++;
+        }} else if (st === 'completó_y_salió') {{
+            compOut[Math.min(pm, 6)]++;
+        }} else if (st === 'guardó_borrador') {{
+            compOut[pm]++;
+        }} else {{
+            noTermOut[pm]++;
+        }}
+    }}
+
+    const forward = new Array(7).fill(0);
+    for (let i = 0; i < 7; i++) forward[i] = llegaron[i + 1];
+
+    // Detección de modo compacto: cuando el container es angosto (típicamente
+    // durante la generación del PDF que fuerza container = 1000px), los labels
+    // de 1 línea se desbordan del nodo. Usamos labels multilínea en ese caso.
+    const containerWidth = container.getBoundingClientRect().width || 1280;
+    const isCompact = containerWidth < 1100;
+
+    // Sankey-specific label overrides para nombres largos. En modo compacto
+    // (PDF), partimos los nombres de 2 palabras en 2 líneas para que entren
+    // dentro del espacio del nodo.
+    const LABELS_NORMAL = {{ 0: 'Jurisdicciones' }};
+    const LABELS_COMPACT = {{
+        0: 'Jurisdicciones',
+        1: 'Base<br>Imponible',
+        2: 'Datos de<br>Facturación',
+        3: 'Impuesto<br>Determinado',
+        4: 'Deducciones',
+        5: 'Débitos y<br>Créditos',
+        6: 'Finalizar DJ',
+        7: 'Generar Pago',
+    }};
+    const overrides = isCompact ? LABELS_COMPACT : LABELS_NORMAL;
+
+    const labels = [];
+    for (let i = 0; i < N; i++) {{
+        const txt = overrides[i] || PASOS_NOMBRES[i] || '';
+        labels.push('Paso ' + i + '<br>' + txt);
+    }}
+    labels.push('✓ Completó', '→ Escapó<br>a clásica', '✗ No terminó');
+    const IDX_COMPL = N, IDX_ESC = N + 1, IDX_ABAN = N + 2;
+
+    // Background del card y color de texto desde CSS variables (responde al tema)
+    const card = container.closest('.chart-card') || container;
+    const cardBg = getComputedStyle(card).backgroundColor || 'rgb(26, 29, 39)';
+    const textColor = (getComputedStyle(document.documentElement).getPropertyValue('--text') || '#e4e6f0').trim();
+
+    const COMP    = "rgba(69, 217, 168, 0.65)";
+    const ESC     = "rgba(245, 158, 66, 0.6)";
+    const ABAN    = "rgba(239, 68, 68, 0.55)";
+    const FORWARD = "rgba(108, 138, 255, 0.55)";
+    const COMP_BLEND_PRE    = _blendOverBg(COMP, cardBg);
+    const FORWARD_BLEND_PRE = _blendOverBg(FORWARD, cardBg);
+
+    const sources = [], targets = [], values = [], colors = [];
+
+    // 1. Forward de Paso 0..5 (van por debajo)
+    for (let i = 0; i < 6; i++) {{
+        if (forward[i] > 0) {{ sources.push(i); targets.push(i + 1); values.push(forward[i]); colors.push(FORWARD); }}
+    }}
+    // 2. Completados / escapes / abandono (debajo del forward Paso 6→7).
+    //    Paso 7 → Completó usa color sólido pre-blendeado para evitar doble-tono
+    //    cuando se superpone con Paso 6 → Completó.
+    for (let i = 0; i < N; i++) {{
+        if (compOut[i] > 0) {{
+            const col = (i === 7) ? COMP_BLEND_PRE : COMP;
+            sources.push(i); targets.push(IDX_COMPL); values.push(compOut[i]); colors.push(col);
+        }}
+        if (escapeOut[i] > 0) {{ sources.push(i); targets.push(IDX_ESC); values.push(escapeOut[i]); colors.push(ESC); }}
+        if (noTermOut[i] > 0) {{ sources.push(i); targets.push(IDX_ABAN); values.push(noTermOut[i]); colors.push(ABAN); }}
+    }}
+    // 3. Forward Paso 6→7 al ÚLTIMO (queda ENCIMA del verde).
+    //    Sólido pre-blendeado para cubrir el verde transparente que pasa por debajo.
+    if (forward[6] > 0) {{ sources.push(6); targets.push(7); values.push(forward[6]); colors.push(FORWARD_BLEND_PRE); }}
+
+    // Posiciones manuales: pasos en línea horizontal central, terminales escalonados a la derecha
+    const nodeX = [0.02, 0.13, 0.24, 0.35, 0.46, 0.57, 0.68, 0.80, 0.99, 0.99, 0.99];
+    const nodeY = [0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.05, 0.65, 0.95];
+    const nodeColors = [
+        '#6c8aff','#6c8aff','#6c8aff','#6c8aff','#6c8aff','#6c8aff','#6c8aff','#6c8aff',
+        '#45d9a8','#f59e42','#ef4444',
+    ];
+
+    Plotly.react('sankey-funnel', [{{
+        type: 'sankey',
+        orientation: 'h',
+        arrangement: 'snap',
+        valueformat: ',d',
+        valuesuffix: ' sesiones',
+        node: {{
+            pad: 22, thickness: 22,
+            line: {{ color: 'rgba(0,0,0,0)', width: 0 }},
+            label: labels,
+            color: nodeColors,
+            x: nodeX, y: nodeY,
         }},
-        options: {{
-            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-            plugins: {{
-                legend: {{position: 'top', align: 'end'}},
-                tooltip: {{callbacks: {{afterLabel: function(ctx) {{
-                    if (ctx.datasetIndex === 0 && ctx.dataIndex > 0)
-                        return 'Drop-off vs paso anterior: ' + dropoffs[ctx.dataIndex] + '%';
-                }}}}}},
-            }},
-            scales: {{
-                x: {{grid: {{color: gridColor}}, beginAtZero: true, ticks: {{precision: 0}}}},
-                y: {{grid: {{display: false}}, ticks: {{font: {{size: 11}}, autoSkip: false}}}},
-            }},
-        }},
-    }});
+        link: {{ source: sources, target: targets, value: values, color: colors }},
+    }}], {{
+        paper_bgcolor: cardBg,
+        plot_bgcolor: cardBg,
+        font: {{ family: 'DM Sans', size: 12, color: textColor }},
+        margin: {{ l: 8, r: 8, t: 8, b: 8 }},
+    }}, {{ displayModeBar: false, responsive: true }});
 }}
 
 /* ─────────────────────────────────────────────────────────────
@@ -2472,7 +2666,8 @@ function applyFilters() {{
     renderKPIs(filtered);
     const funnelRows = computeFunnelRows(filtered);
     renderFunnelTable(funnelRows);
-    renderFunnelChart(funnelRows);
+    renderErroresStacked(filtered);
+    renderSankey(filtered);
     renderPaths(filtered);
     renderEscapes(filtered);
     renderDeviceTable(filtered, 'dc', 'tbl-device-cat');
@@ -2500,9 +2695,10 @@ function applyTheme(theme) {{
         themeBtn.title = (t === 'dark') ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro';
     }}
     try {{ localStorage.setItem(THEME_KEY, t); }} catch (_) {{ }}
-    // Re-render del chart para que tome los nuevos colores de grid/texto
-    const rows = computeFunnelRows(SESSIONS);
-    renderFunnelChart(rows);
+    // Re-render charts para que tomen los nuevos colores de grid/texto
+    if (typeof renderErroresStacked === 'function') renderErroresStacked(SESSIONS);
+    // Re-render Sankey: el bg del card y los pre-blendeados dependen del tema
+    if (typeof renderSankey === 'function') renderSankey(SESSIONS);
 }}
 
 let savedTheme = 'light';
@@ -2636,6 +2832,7 @@ async function generarPDF() {{
         // Tablas/cards densos que no van al PDF:
         '#tbl-sessions', '#tbl-paths',
         '#tbl-errcampo-otros',
+        '#tbl-errsesiones',
         // Pie de informe
         '.container > footer', 'body > footer',
     ];
@@ -2648,7 +2845,7 @@ async function generarPDF() {{
     }});
 
     // 5. Ocultar tarjetas que CONTIENEN las tablas ocultas (encabezado + nota)
-    document.querySelectorAll('#tab-sessions .card, #tab-paths .card').forEach(el => {{
+    document.querySelectorAll('#tab-sessions .card, #tab-paths .card, #tab-errsesiones .card').forEach(el => {{
         const orig = el.style.display;
         restoreActions.push(() => {{ el.style.display = orig; }});
         el.style.display = 'none';
@@ -2664,14 +2861,17 @@ async function generarPDF() {{
         }}
     }});
 
-    // 6. Re-render del chart funnel con tema claro y parent ya visible al nuevo ancho
-    if (typeof renderFunnelChart === 'function' && typeof computeFunnelRows === 'function') {{
-        const rows = computeFunnelRows(SESSIONS);
-        renderFunnelChart(rows);
+    // 6. Re-render de los Plotly charts con tema claro y parent ya visible al nuevo ancho
+    if (typeof renderErroresStacked === 'function') renderErroresStacked(SESSIONS);
+    if (typeof renderSankey === 'function') renderSankey(SESSIONS);
+    // Forzar a Plotly que re-calcule el ancho con el container ya en 1000px
+    if (typeof Plotly !== 'undefined' && Plotly.Plots) {{
+        try {{ Plotly.Plots.resize('sankey-funnel'); }} catch (_) {{}}
+        try {{ Plotly.Plots.resize('chart-errores-stacked'); }} catch (_) {{}}
     }}
 
-    // 7. Esperar a que Chart.js termine de renderizar
-    await new Promise(r => setTimeout(r, 700));
+    // 7. Esperar a que Chart.js / Plotly terminen de renderizar
+    await new Promise(r => setTimeout(r, 900));
 
     // 8. Detectar grids horizontales (varios cards en misma fila) y forzarlos
     //    a stackearse VERTICALMENTE (1 columna) para que cada card use el ancho
@@ -2853,9 +3053,13 @@ async function generarPDF() {{
         if (prevTheme !== 'light') {{
             document.documentElement.setAttribute('data-theme', prevTheme);
         }}
-        if (typeof renderFunnelChart === 'function' && typeof computeFunnelRows === 'function') {{
-            const rows = computeFunnelRows(SESSIONS);
-            renderFunnelChart(rows);
+        // Restaurar Plotly charts al estado normal post-PDF (resetea bg/colores al tema
+        // actual + reajusta el ancho a la columna del container ya restaurada).
+        if (typeof renderErroresStacked === 'function') renderErroresStacked(SESSIONS);
+        if (typeof renderSankey === 'function') renderSankey(SESSIONS);
+        if (typeof Plotly !== 'undefined' && Plotly.Plots) {{
+            try {{ Plotly.Plots.resize('sankey-funnel'); }} catch (_) {{}}
+            try {{ Plotly.Plots.resize('chart-errores-stacked'); }} catch (_) {{}}
         }}
         overlay.remove();
         pdfBtn.disabled = false;
