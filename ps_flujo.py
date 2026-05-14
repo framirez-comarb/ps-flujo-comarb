@@ -2216,7 +2216,7 @@ function renderErroresStacked(sessions) {{
 // rgba transparente original sobre ese fondo. Útil para que un flujo sólido
 // matchee visualmente al mismo flujo transparente de al lado.
 function _blendOverBg(rgbaStr, bgStr) {{
-    const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/.exec(rgbaStr);
+    const m = /rgba?\\((\\d+),\\s*(\\d+),\\s*(\\d+)(?:,\\s*([\\d.]+))?\\)/.exec(rgbaStr);
     if (!m) return rgbaStr;
     const fr = parseInt(m[1]), fg = parseInt(m[2]), fb = parseInt(m[3]);
     const fa = m[4] !== undefined ? parseFloat(m[4]) : 1;
@@ -2226,7 +2226,7 @@ function _blendOverBg(rgbaStr, bgStr) {{
         bg2 = parseInt(bgStr.slice(3, 5), 16);
         bb = parseInt(bgStr.slice(5, 7), 16);
     }} else {{
-        const bm = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(bgStr);
+        const bm = /rgba?\\((\\d+),\\s*(\\d+),\\s*(\\d+)/.exec(bgStr);
         if (!bm) return rgbaStr;
         br = parseInt(bm[1]); bg2 = parseInt(bm[2]); bb = parseInt(bm[3]);
     }}
@@ -2565,9 +2565,9 @@ function renderErrCampo(sessions) {{
    ───────────────────────────────────────────────────────────── */
 function _pasoDesdeEvento(ev) {{
     // Replica de _paso_desde_evento (ps_flujo.py:586) para JS.
-    let m = /^PS_boton_continuar_(\d+)$/.exec(ev);
+    let m = /^PS_boton_continuar_(\\d+)$/.exec(ev);
     if (m) return parseInt(m[1], 10);
-    m = /^PS_boton_volver_(\d+)$/.exec(ev);
+    m = /^PS_boton_volver_(\\d+)$/.exec(ev);
     if (m) return parseInt(m[1], 10);
     if (ev === 'PS_boton_presentar_y_salir' || ev === 'PS_boton_presentar_y_generar_pago' || ev === 'PS_boton_guardar_borrador_y_salir') return 6;
     if (ev === 'PS_boton_generar_volante_de_pago') return 7;
