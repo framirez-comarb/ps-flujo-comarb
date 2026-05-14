@@ -48,7 +48,7 @@ EVENTOS_PS = [
 ]
 
 creds = Credentials.from_service_account_file(
-    r"G:\Otros ordenadores\Mi PC\Proyects\Fede4\comarb-analytics-580ca8f5412c.json", scopes=SCOPES,
+    r"C:\Users\FARP\Documents\Proyects\Fede4\comarb-analytics-580ca8f5412c.json", scopes=SCOPES,
 )
 client = BetaAnalyticsDataClient(credentials=creds)
 
