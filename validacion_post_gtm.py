@@ -6,8 +6,10 @@ ya propagaron a GA4.
 """
 import argparse
 import io
+import os
 import sys
 from datetime import date, datetime, timedelta
+from pathlib import Path
 
 if sys.stdout.encoding != "utf-8":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -25,7 +27,47 @@ PROPERTY_ID = "485388348"
 SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
 HOSTNAME = "servicios.comarb.gob.ar"
 DEFAULT_DAYS = 14
-DEFAULT_CREDS = r"C:\Users\FARP\Documents\Proyects\Fede4\comarb-analytics-580ca8f5412c.json"
+
+# Paths conocidos donde puede vivir el JSON de service account GA4.
+# Se prueban en orden si --creds y GA4_SA_PATH no estan seteados.
+_HERE = Path(__file__).resolve().parent
+KNOWN_CREDS_PATHS = [
+    r"C:\Users\FARP\Documents\Proyects\Fede4\comarb-analytics-580ca8f5412c.json",
+    r"G:\Otros ordenadores\Mi PC\Proyects\Fede4\comarb-analytics-580ca8f5412c.json",
+    str(_HERE / "sa_credentials.json"),
+    str(_HERE / "comarb-analytics-580ca8f5412c.json"),
+    str(_HERE.parent / "Fede4" / "comarb-analytics-580ca8f5412c.json"),
+]
+
+
+def find_ga4_credentials(cli_path):
+    """Localiza el JSON de service account de GA4.
+
+    Prioridad: CLI --creds > env GA4_SA_PATH > paths conocidos. Devuelve
+    (path, fuente). Fail-fast si --creds o GA4_SA_PATH apuntan a algo que
+    no existe — no quiero enmascarar typos cayendo silenciosamente al
+    fallback.
+    """
+    if cli_path:
+        if not Path(cli_path).is_file():
+            raise FileNotFoundError(f"--creds apunta a un path que no existe: {cli_path}")
+        return cli_path, "--creds"
+    env = os.environ.get("GA4_SA_PATH")
+    if env:
+        if not Path(env).is_file():
+            raise FileNotFoundError(f"env GA4_SA_PATH apunta a un path que no existe: {env}")
+        return env, "env GA4_SA_PATH"
+    for p in KNOWN_CREDS_PATHS:
+        if Path(p).is_file():
+            return p, "path conocido"
+    msg = ["No se encontro JSON de credenciales GA4 en paths conocidos:"]
+    for p in KNOWN_CREDS_PATHS:
+        msg.append(f"  {p}")
+    msg.append("Opciones para resolverlo:")
+    msg.append("  - pasar --creds <path al JSON>")
+    msg.append("  - setear env GA4_SA_PATH=<path al JSON>")
+    msg.append("  - copiar el JSON a alguno de los paths conocidos de arriba")
+    raise FileNotFoundError("\n".join(msg))
 
 
 def _parse_args():
@@ -39,8 +81,9 @@ def _parse_args():
                    help="Fecha inicio del período (YYYY-MM-DD).")
     p.add_argument("--hasta", default=str(today),
                    help="Fecha fin del período (YYYY-MM-DD).")
-    p.add_argument("-c", "--creds", default=DEFAULT_CREDS,
-                   help="Path al JSON de service account de GA4.")
+    p.add_argument("-c", "--creds", default=None,
+                   help="Path al JSON de service account de GA4 (override). "
+                        "Fallback: env GA4_SA_PATH y paths conocidos.")
     args = p.parse_args()
     try:
         d1 = datetime.strptime(args.desde, "%Y-%m-%d").date()
@@ -55,6 +98,7 @@ def _parse_args():
 ARGS = _parse_args()
 START_DATE = ARGS.desde
 END_DATE = ARGS.hasta
+CREDS_PATH, CREDS_SOURCE = find_ga4_credentials(ARGS.creds)
 
 EVENTOS_PS = [
     "PS_boton_continuar_0", "PS_boton_continuar_1", "PS_boton_continuar_2",
@@ -76,7 +120,8 @@ EVENTOS_PS = [
     "PS_switch_asistente_ayuda",
 ]
 
-creds = Credentials.from_service_account_file(ARGS.creds, scopes=SCOPES)
+print(f"Credenciales GA4: {CREDS_PATH} (fuente: {CREDS_SOURCE})")
+creds = Credentials.from_service_account_file(CREDS_PATH, scopes=SCOPES)
 client = BetaAnalyticsDataClient(credentials=creds)
 
 
