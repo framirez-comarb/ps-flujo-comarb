@@ -1,11 +1,13 @@
 """
 Validación post-fix GTM.
-Script de uso único para chequear si los cambios en tag manager
-(CUIT en cerrar_encuesta, exact_timestamp en 22 eventos, Tier A1 ga_session_id,
-Tier A3 pantalla) ya propagaron a GA4.
+Chequea si los cambios en tag manager (CUIT en cerrar_encuesta,
+exact_timestamp en 22 eventos, Tier A1 ga_session_id, Tier A3 pantalla)
+ya propagaron a GA4.
 """
+import argparse
 import io
 import sys
+from datetime import date, datetime, timedelta
 
 if sys.stdout.encoding != "utf-8":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -22,10 +24,37 @@ from google.oauth2.service_account import Credentials
 PROPERTY_ID = "485388348"
 SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
 HOSTNAME = "servicios.comarb.gob.ar"
+DEFAULT_DAYS = 14
+DEFAULT_CREDS = r"C:\Users\FARP\Documents\Proyects\Fede4\comarb-analytics-580ca8f5412c.json"
 
-# Rango: desde que deberían haberse aplicado los fixes
-START_DATE = "2026-04-21"
-END_DATE = "2026-05-04"
+
+def _parse_args():
+    today = date.today()
+    default_desde = today - timedelta(days=DEFAULT_DAYS)
+    p = argparse.ArgumentParser(
+        description="Validación post-fix GTM (CHECKs 1-7).",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    p.add_argument("--desde", default=str(default_desde),
+                   help="Fecha inicio del período (YYYY-MM-DD).")
+    p.add_argument("--hasta", default=str(today),
+                   help="Fecha fin del período (YYYY-MM-DD).")
+    p.add_argument("-c", "--creds", default=DEFAULT_CREDS,
+                   help="Path al JSON de service account de GA4.")
+    args = p.parse_args()
+    try:
+        d1 = datetime.strptime(args.desde, "%Y-%m-%d").date()
+        d2 = datetime.strptime(args.hasta, "%Y-%m-%d").date()
+    except ValueError as e:
+        p.error(f"Formato de fecha inválido: {e}")
+    if d1 > d2:
+        p.error(f"--desde ({args.desde}) no puede ser posterior a --hasta ({args.hasta})")
+    return args
+
+
+ARGS = _parse_args()
+START_DATE = ARGS.desde
+END_DATE = ARGS.hasta
 
 EVENTOS_PS = [
     "PS_boton_continuar_0", "PS_boton_continuar_1", "PS_boton_continuar_2",
@@ -47,9 +76,7 @@ EVENTOS_PS = [
     "PS_switch_asistente_ayuda",
 ]
 
-creds = Credentials.from_service_account_file(
-    r"C:\Users\FARP\Documents\Proyects\Fede4\comarb-analytics-580ca8f5412c.json", scopes=SCOPES,
-)
+creds = Credentials.from_service_account_file(ARGS.creds, scopes=SCOPES)
 client = BetaAnalyticsDataClient(credentials=creds)
 
 
