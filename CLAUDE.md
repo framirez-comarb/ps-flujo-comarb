@@ -44,6 +44,15 @@ Single-file script (`ps_flujo.py`) con queries GA4 Data API v1beta sesión por s
 
 ## Session Changelog
 
+### Session 2026-05-14 — CUIT en GA4 pasó a venir en hexadecimal
+
+GA4 empezó a enviar `customEvent:CUIT` codificado en hexadecimal a partir de algún día de mayo 2026 (visible en los CSVs desde 2026-05-12). Ejemplos: `4AAB51350` (era `20043862864`), `65B8ED902` (era `27305892098`). La transformación es `int(hex, 16)` → string decimal — son los mismos 11 dígitos del CUIT argentino expresados en base 16.
+
+- Función `_decode_cuit()` agregada en [ps_flujo.py](ps_flujo.py) ([_decode_cuit](ps_flujo.py:235))
+- Aplicada en las 3 funciones de extracción (`extract_events`, `extract_error_texts`, `extract_session_ids`) inmediatamente después del DataFrame creation, así toda la lógica downstream (build_sessions, merges, HTML, CSVs) ve el CUIT ya en formato decimal estándar
+- Guardrails: pasa tal cual `(not set)` / vacíos / strings sólo-dígitos (CUIT decimal legacy pre-2026-05) / strings no hex / hex que decodifica fuera del rango 10-11 dígitos
+- **Pendiente**: `ps-verificacion-comarb` necesita el mismo fix — esa repo también consume `customEvent:CUIT` y verá hex desde ahora
+
 ### Session 2026-05-06 — Validación post-fix GTM (Tier A1 sid + Tier A3 pantalla)
 
 Resumen completo en [SESION_2026-05-06_validacion_gtm.md](SESION_2026-05-06_validacion_gtm.md).
