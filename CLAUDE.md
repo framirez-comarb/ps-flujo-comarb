@@ -44,6 +44,32 @@ Single-file script (`ps_flujo.py`) con queries GA4 Data API v1beta sesión por s
 
 ## Session Changelog
 
+### Session 2026-05-14 — CUIT en GA4 pasó a venir en hexadecimal
+
+GA4 empezó a enviar `customEvent:CUIT` codificado en hexadecimal a partir de algún día de mayo 2026 (visible en los CSVs desde 2026-05-12). Ejemplos: `4AAB51350` (era `20043862864`), `65B8ED902` (era `27305892098`). La transformación es `int(hex, 16)` → string decimal — son los mismos 11 dígitos del CUIT argentino expresados en base 16.
+
+- Función `_decode_cuit()` agregada en [ps_flujo.py](ps_flujo.py) ([_decode_cuit](ps_flujo.py:235))
+- Aplicada en las 3 funciones de extracción (`extract_events`, `extract_error_texts`, `extract_session_ids`) inmediatamente después del DataFrame creation, así toda la lógica downstream (build_sessions, merges, HTML, CSVs) ve el CUIT ya en formato decimal estándar
+- Guardrails: pasa tal cual `(not set)` / vacíos / strings sólo-dígitos (CUIT decimal legacy pre-2026-05) / strings no hex / hex que decodifica fuera del rango 10-11 dígitos
+- **Pendiente**: `ps-verificacion-comarb` necesita el mismo fix — esa repo también consume `customEvent:CUIT` y verá hex desde ahora
+
+### Session 2026-05-06 — Validación post-fix GTM (Tier A1 sid + Tier A3 pantalla)
+
+Resumen completo en [SESION_2026-05-06_validacion_gtm.md](SESION_2026-05-06_validacion_gtm.md).
+
+**Highlights:**
+- **`pantalla`** (Tier A3) confirmado al 100% sostenido desde 2026-04-29
+- **`js_ga_sesion_id`** (Tier A1, ojo: el nombre real tiene typo "sesion" con una s) fix aplicado el 2026-05-04; rampa 65% (Lu) → 71% (Ma) → **100% (Mi 2026-05-06)** con 194 eventos
+- Causa raíz confirmada por el dev de GTM: parámetro estaba en la Etiqueta de configuración de Google (Google Tag) y no en cada uno de los 28 Tags de eventos PS. Fix: mover el parámetro a cada Event Tag individualmente
+- Análisis de impacto: ratio SID/CF en `ps_flujo_sesiones.csv` debería pasar de 57/43 a >95/<5 una vez que entren sesiones nuevas. KPIs (% completaron / % escapes) tenían distorsión de 5-8pp por sesiones partidas; queda residual de acá en adelante
+- Workflow fail del 2026-05-05 fue transient de runners GitHub Actions (mismo síntoma en ps-flujo y ps-verificacion). NO relacionado al bloqueo dgw / comarb data
+- Scripts agregados al repo: `validacion_post_gtm.py` extendido con CHECKs 6-7, `monitor_cobertura_dims.py` (utilidad recurrente), `explorar_sesiones_cf.py` (diagnóstico de splits). Scripts `_check_*_ayer.py` y `_check_sid_value.py` son efímeros pero quedaron como referencia.
+
+**Pendiente al cerrar la sesión:**
+1. Re-correr `monitor_cobertura_dims.py` jueves/viernes para confirmar estabilización del sid al 100%
+2. Verificar ratio SID/CF en `ps_flujo_sesiones.csv` después de 2-3 días con sid al 100%
+3. Resolver outlier residual de `pantalla` (3/194 = 1.5% hoy) si persiste
+
 ### Session 2026-04-28 — PDF download rebuild
 
 Mismo rework del flow de descarga PDF que se hizo en `ps-verificacion-comarb` (ver allá para detalle de bug raíz `windowWidth`). Cambios específicos a este repo:

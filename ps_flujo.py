@@ -226,6 +226,34 @@ def _run_paginated(
     return all_rows
 
 
+# Desde 2026-05 GA4 envía el CUIT codificado en hexadecimal (e.g. "4AAB51350").
+# Lo decodificamos a su forma decimal estándar (11 dígitos) ni bien sale de
+# la API, para que el resto del pipeline y los reportes muestren el CUIT real.
+_CUIT_NULL_MARKERS = ("(not set)", "", "nan", "NaN")
+
+
+def _decode_cuit(raw: str) -> str:
+    if raw is None:
+        return ""
+    s = str(raw).strip()
+    if s in _CUIT_NULL_MARKERS:
+        return s
+    if not all(c in "0123456789abcdefABCDEF" for c in s):
+        return s
+    # Si son sólo dígitos, es un CUIT decimal legacy (pre-2026-05) — no convertir.
+    if all(c in "0123456789" for c in s):
+        return s
+    try:
+        decoded = str(int(s, 16))
+    except ValueError:
+        return s
+    # Guardrail: CUIT argentino tiene 10 u 11 dígitos. Si cae fuera, devolvemos
+    # el valor original para no enmascarar datos raros.
+    if 10 <= len(decoded) <= 11:
+        return decoded
+    return s
+
+
 # ═══════════════════════════════════════════════════════════════
 # Query 1 — Eventos PS del flujo (evento-por-evento con sessionId)
 # ═══════════════════════════════════════════════════════════════
@@ -287,6 +315,9 @@ def extract_events(
             rec["engagement_seg"] = 0.0
         data.append(rec)
     df = pd.DataFrame(data, columns=dim_names + ["event_count", "engagement_seg"])
+
+    # Decodificar CUIT hex → decimal (cambio en GA4 ~2026-05).
+    df["cuit"] = df["cuit"].map(_decode_cuit)
 
     # Limpiar (not set) manteniendo CUIT aparte: en CUIT conservamos el marker
     # para el sanity check; en los otros campos sí lo normalizamos.
@@ -356,6 +387,7 @@ def extract_error_texts(
         }
         data.append(rec)
     df = pd.DataFrame(data, columns=["cuit", "exact_timestamp", "date", "texto_del_error"])
+    df["cuit"] = df["cuit"].map(_decode_cuit)
     df["texto_del_error"] = df["texto_del_error"].replace("(not set)", "")
     print(f"  ✅ Query 1b: {len(df)} filas de error")
     return df
@@ -409,6 +441,7 @@ def extract_session_ids(
         }
         data.append(rec)
     df = pd.DataFrame(data, columns=["cuit", "exact_timestamp", "date", "js_ga_sesion_id"])
+    df["cuit"] = df["cuit"].map(_decode_cuit)
     df["js_ga_sesion_id"] = df["js_ga_sesion_id"].replace("(not set)", "")
     n_con_sid = (df["js_ga_sesion_id"] != "").sum()
     print(f"  ✅ Query 1c: {len(df)} filas totales, {n_con_sid} con session_id válido")
