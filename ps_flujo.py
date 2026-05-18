@@ -240,12 +240,15 @@ def _decode_cuit(raw: str) -> str:
         return s
     if not all(c in "0123456789abcdefABCDEF" for c in s):
         return s
-    # Si son sólo dígitos, es un CUIT decimal legacy (pre-2026-05) — no convertir.
-    if all(c in "0123456789" for c in s):
+    # Decimal legacy: SOLO si el string tiene 10-11 chars y es todo dígitos
+    # (rango CUIT argentino válido). Esto distingue "20043862864" (legacy
+    # decimal real) de "566257774" (hex de 9 chars que casualmente sólo
+    # contiene dígitos — decodifica a 23.188.567.924, CUIT argentino válido).
+    if 10 <= len(s) <= 11 and all(c in "0123456789" for c in s):
         return s
     try:
         decoded = str(int(s, 16))
-    except ValueError:
+    except (ValueError, OverflowError):
         return s
     # Guardrail: CUIT argentino tiene 10 u 11 dígitos. Si cae fuera, devolvemos
     # el valor original para no enmascarar datos raros.
