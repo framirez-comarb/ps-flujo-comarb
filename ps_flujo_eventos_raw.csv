@@ -4797,6 +4797,8 @@ PS_error_validacion_dj,30717786099,2026-06-22 19:03:50,20260622,/siferesimplific
 PS_error_validacion_dj,30717786099,2026-06-22 19:06:43,20260622,/siferesimplificada/finalizardj,desktop,Windows,Chrome,2,0.0,"Error Falla al intentar cerrar DDJJ. No coincide el total de Ingresos no Gravados: $ 0,00 con el tot",SES-20260622-185516-89283
 PS_error_validacion_dj,30717786099,2026-06-22 19:06:59,20260622,/siferesimplificada/finalizardj,desktop,Windows,Chrome,2,0.0,"Error Falla al intentar cerrar DDJJ. No coincide el total de Ingresos no Gravados: $ 0,00 con el tot",SES-20260622-185516-89283
 PS_error_validacion_dj,30717786099,2026-06-22 19:08:16,20260622,/siferesimplificada/finalizardj,desktop,Windows,Chrome,2,0.0,"Error Falla al intentar cerrar DDJJ. No coincide el total de Ingresos no Gravados: $ 0,00 con el tot",SES-20260622-185516-89283
+PS_error_validacion_dj,30717786099,2026-08-28 18:23:42,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,2,0.0,Error El total distribuido debe ser igual a la base imponible,SES-20260828-182026-22645
+PS_error_validacion_dj,30717786099,2026-08-28 18:23:53,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,2,0.0,Error El total distribuido debe ser igual a la base imponible,SES-20260828-182026-22645
 PS_error_validacion_dj,30717840344,2026-06-15 10:53:29,20260615,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,2,1.0,Error Problemas para obtener sus deducciones,SES-20260615-105327-65990
 PS_error_validacion_dj,30717840344,2026-06-15 10:54:49,20260615,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,2,0.0,Error Problemas para obtener sus deducciones,SES-20260615-105327-65990
 PS_error_validacion_dj,30717912922,2026-05-14 11:37:13,20260514,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,2,0.0,Error El total distribuido debe ser igual a la base imponible,SES-20260514-113626-50492
@@ -8459,6 +8461,7 @@ PS_boton_continuar_0,20082761072,2026-05-18 16:27:34,20260518,/siferesimplificad
 PS_boton_continuar_0,20082806270,2026-05-16 13:24:25,20260516,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260516-132417-48225
 PS_boton_continuar_0,20082806270,2026-06-17 16:52:01,20260617,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,10.0,,SES-20260617-165149-39699
 PS_boton_continuar_0,20082806270,2026-07-18 22:42:49,20260718,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,6.0,,SES-20260718-224242-81566
+PS_boton_continuar_0,20082806270,2026-08-29 20:04:33,20260829,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,25.0,,SES-20260829-200407-16818
 PS_boton_continuar_0,20083071843,2026-06-14 08:05:10,20260614,/siferesimplificada/datosnivelpais,desktop,Windows,Edge,1,2.0,,SES-20260614-080456-27002
 PS_boton_continuar_0,20083227657,2026-08-07 23:26:11,20260807,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,3.0,,SES-20260807-232605-95608
 PS_boton_continuar_0,20083305305,2026-08-16 11:36:47,20260816,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,6.0,,SES-20260816-113639-19258
@@ -9074,6 +9077,7 @@ PS_boton_continuar_0,20160606933,2026-08-13 16:27:57,20260813,/siferesimplificad
 PS_boton_continuar_0,20160606933,2026-08-13 16:31:45,20260813,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,0.0,,SES-20260813-162724-40380
 PS_boton_continuar_0,20161436322,2026-08-12 09:20:02,20260812,/siferesimplificada/datosnivelpais,desktop,Windows,Firefox,1,20.0,,SES-20260812-091919-55074
 PS_boton_continuar_0,20161553515,2026-06-12 12:44:39,20260612,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,33.0,,SES-20260612-124357-84765
+PS_boton_continuar_0,20161637948,2026-08-28 20:15:29,20260828,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,15.0,,SES-20260828-201510-92577
 PS_boton_continuar_0,20161700550,2026-08-12 14:18:15,20260812,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,8.0,,SES-20260812-141805-96305
 PS_boton_continuar_0,20161937380,2026-08-10 21:42:15,20260810,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,6.0,,SES-20260810-214205-34897
 PS_boton_continuar_0,20161937380,2026-08-13 20:37:21,20260813,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,22.0,,SES-20260813-203657-47788
@@ -11551,6 +11555,7 @@ PS_boton_continuar_0,23122823784,2026-05-17 14:44:19,20260517,/siferesimplificad
 PS_boton_continuar_0,23123809394,2026-08-21 17:46:12,20260821,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,2.0,,SES-20260821-174609-89253
 PS_boton_continuar_0,23124748704,2026-08-18 16:31:26,20260818,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,2.0,,SES-20260818-163016-97676
 PS_boton_continuar_0,23129808144,2026-07-28 15:59:36,20260728,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,9.0,,SES-20260728-155927-18419
+PS_boton_continuar_0,23129808144,2026-08-28 15:53:23,20260828,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,1.0,,SES-20260828-155320-99884
 PS_boton_continuar_0,23129836873,2026-05-18 18:01:33,20260518,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260518-180127-70255
 PS_boton_continuar_0,23130531709,2026-05-18 14:37:38,20260518,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,0.0,,SES-20260518-143736-77541
 PS_boton_continuar_0,23130531709,2026-06-17 10:18:02,20260617,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,1.0,,SES-20260617-101759-82105
@@ -12017,6 +12022,7 @@ PS_boton_continuar_0,(invalido),2026-07-03 14:57:49,20260703,/siferesimplificada
 PS_boton_continuar_0,(invalido),2026-08-04 16:02:01,20260804,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,4.0,,SES-20260804-160153-18102
 PS_boton_continuar_0,(invalido),2026-08-11 12:43:14,20260811,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,0.0,,SES-20260811-124251-95778
 PS_boton_continuar_0,27006669617,2026-08-18 15:50:45,20260818,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,0.0,,SES-20260818-155030-61514
+PS_boton_continuar_0,27006686252,2026-08-28 16:44:29,20260828,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,0.0,,SES-20260828-164420-55688
 PS_boton_continuar_0,27008386973,2026-08-10 08:28:07,20260810,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,13.0,,SES-20260810-082750-97439
 PS_boton_continuar_0,27008619234,2026-08-18 08:29:38,20260818,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,5.0,,SES-20260818-082931-40682
 PS_boton_continuar_0,27008931483,2026-08-18 08:45:11,20260818,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,1.0,,SES-20260818-084448-56578
@@ -12651,6 +12657,7 @@ PS_boton_continuar_0,27123888923,2026-06-17 15:01:49,20260617,/siferesimplificad
 PS_boton_continuar_0,27123888923,2026-06-17 15:03:10,20260617,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,0.0,,SES-20260617-150141-52202
 PS_boton_continuar_0,27124834894,2026-07-13 09:57:22,20260713,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,3.0,,SES-20260713-095718-70425
 PS_boton_continuar_0,27124834894,2026-07-13 10:01:00,20260713,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,6.0,,SES-20260713-095718-70425
+PS_boton_continuar_0,27124834894,2026-08-28 16:03:15,20260828,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,5.0,,SES-20260828-160307-48478
 PS_boton_continuar_0,27124867148,2026-08-12 16:27:08,20260812,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260812-162701-58661
 PS_boton_continuar_0,27125088797,2026-06-15 20:27:24,20260615,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,8.0,,SES-20260615-202709-63069
 PS_boton_continuar_0,27125270803,2026-05-14 10:41:32,20260514,/siferesimplificada/datosnivelpais,desktop,Windows,Edge,1,11.0,,SES-20260514-104120-72713
@@ -13100,6 +13107,7 @@ PS_boton_continuar_0,27171951564,2026-07-08 07:04:30,20260708,/siferesimplificad
 PS_boton_continuar_0,27171951564,2026-08-04 06:43:47,20260804,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,6.0,,SES-20260804-064339-97243
 PS_boton_continuar_0,27171951564,2026-08-10 12:00:36,20260810,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,17.0,,SES-20260810-120016-79391
 PS_boton_continuar_0,27171951564,2026-08-10 12:06:37,20260810,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,16.0,,SES-20260810-120619-51746
+PS_boton_continuar_0,27173050750,2026-08-28 18:59:21,20260828,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,13.0,,SES-20260828-185907-67739
 PS_boton_continuar_0,27173161013,2026-08-12 11:47:31,20260812,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,6.0,,SES-20260812-114725-77275
 PS_boton_continuar_0,27173161013,2026-08-12 11:49:28,20260812,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,5.0,,SES-20260812-114725-77275
 PS_boton_continuar_0,27173197719,2026-08-10 18:20:41,20260810,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,0.0,,SES-20260810-182032-22418
@@ -13410,6 +13418,7 @@ PS_boton_continuar_0,27227778399,2026-08-06 11:15:55,20260806,/siferesimplificad
 PS_boton_continuar_0,27227807755,2026-05-17 20:24:12,20260517,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,12.0,,SES-20260517-202357-96177
 PS_boton_continuar_0,27227897045,2026-08-13 13:24:03,20260813,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,21.0,,SES-20260813-132342-29137
 PS_boton_continuar_0,27229140758,2026-05-20 16:46:05,20260520,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,4.0,,SES-20260520-164600-88218
+PS_boton_continuar_0,27229140758,2026-08-28 17:15:03,20260828,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,4.0,,SES-20260828-171457-34816
 PS_boton_continuar_0,27229224358,2026-08-18 19:44:13,20260818,/siferesimplificada/datosnivelpais,desktop,Windows,Edge,1,0.0,,SES-20260818-194406-14347
 PS_boton_continuar_0,27229391254,2026-08-11 09:42:05,20260811,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,5.0,,SES-20260811-094200-70599
 PS_boton_continuar_0,27229403112,2026-08-12 12:27:49,20260812,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,0.0,,SES-20260812-122747-91576
@@ -16116,6 +16125,8 @@ PS_boton_continuar_0,30717786099,2026-06-22 19:00:19,20260622,/siferesimplificad
 PS_boton_continuar_0,30717786099,2026-06-22 19:03:28,20260622,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,1.0,,SES-20260622-185516-89283
 PS_boton_continuar_0,30717786099,2026-06-22 19:04:34,20260622,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,3.0,,SES-20260622-185516-89283
 PS_boton_continuar_0,30717786099,2026-06-22 19:06:34,20260622,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,2.0,,SES-20260622-185516-89283
+PS_boton_continuar_0,30717786099,2026-08-28 18:20:53,20260828,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,3.0,,SES-20260828-182026-22645
+PS_boton_continuar_0,30717786099,2026-08-28 18:24:09,20260828,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,1.0,,SES-20260828-182026-22645
 PS_boton_continuar_0,30717795020,2026-05-15 15:26:41,20260515,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,1.0,,SES-20260515-152635-27721
 PS_boton_continuar_0,30717795020,2026-05-15 15:28:01,20260515,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,5.0,,SES-20260515-152635-27721
 PS_boton_continuar_0,30717795020,2026-06-22 18:27:23,20260622,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,19.0,,SES-20260622-182703-70395
@@ -20508,6 +20519,7 @@ PS_boton_continuar_1,20082628399,2026-05-18 13:50:06,20260518,/siferesimplificad
 PS_boton_continuar_1,20082806270,2026-05-16 13:24:56,20260516,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,17.0,,SES-20260516-132417-48225
 PS_boton_continuar_1,20082806270,2026-06-17 16:52:35,20260617,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,18.0,,SES-20260617-165149-39699
 PS_boton_continuar_1,20082806270,2026-07-18 22:43:10,20260718,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260718-224242-81566
+PS_boton_continuar_1,20082806270,2026-08-29 20:04:53,20260829,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,11.0,,SES-20260829-200407-16818
 PS_boton_continuar_1,20083071843,2026-06-14 08:05:14,20260614,/siferesimplificada/baseimponible,desktop,Windows,Edge,1,2.0,,SES-20260614-080456-27002
 PS_boton_continuar_1,20083227657,2026-08-07 23:26:23,20260807,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,10.0,,SES-20260807-232605-95608
 PS_boton_continuar_1,20083305305,2026-08-16 11:36:52,20260816,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,3.0,,SES-20260816-113639-19258
@@ -21148,6 +21160,7 @@ PS_boton_continuar_1,20160606933,2026-08-13 16:28:41,20260813,/siferesimplificad
 PS_boton_continuar_1,20160606933,2026-08-13 16:31:47,20260813,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260813-162724-40380
 PS_boton_continuar_1,20161436322,2026-08-12 09:20:14,20260812,/siferesimplificada/baseimponible,desktop,Windows,Firefox,1,10.0,,SES-20260812-091919-55074
 PS_boton_continuar_1,20161553515,2026-06-12 12:44:48,20260612,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,8.0,,SES-20260612-124357-84765
+PS_boton_continuar_1,20161637948,2026-08-28 20:16:07,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,36.0,,SES-20260828-201510-92577
 PS_boton_continuar_1,20161700550,2026-08-12 14:18:17,20260812,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260812-141805-96305
 PS_boton_continuar_1,20161937380,2026-08-10 21:42:17,20260810,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260810-214205-34897
 PS_boton_continuar_1,20161937380,2026-08-13 20:37:25,20260813,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,2.0,,SES-20260813-203657-47788
@@ -23741,6 +23754,7 @@ PS_boton_continuar_1,23122823784,2026-05-17 14:44:23,20260517,/siferesimplificad
 PS_boton_continuar_1,23123809394,2026-08-21 17:46:14,20260821,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,1.0,,SES-20260821-174609-89253
 PS_boton_continuar_1,23124748704,2026-08-18 16:32:12,20260818,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,11.0,,SES-20260818-163016-97676
 PS_boton_continuar_1,23129808144,2026-07-28 15:59:55,20260728,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,15.0,,SES-20260728-155927-18419
+PS_boton_continuar_1,23129808144,2026-08-28 15:53:47,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,21.0,,SES-20260828-155320-99884
 PS_boton_continuar_1,23129836873,2026-05-18 18:04:39,20260518,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,43.0,,SES-20260518-180127-70255
 PS_boton_continuar_1,23130531709,2026-05-18 14:37:40,20260518,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260518-143736-77541
 PS_boton_continuar_1,23130531709,2026-06-17 10:18:04,20260617,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260617-101759-82105
@@ -24227,6 +24241,7 @@ PS_boton_continuar_1,(invalido),2026-07-03 15:00:07,20260703,/siferesimplificada
 PS_boton_continuar_1,(invalido),2026-08-04 16:03:23,20260804,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,32.0,,SES-20260804-160153-18102
 PS_boton_continuar_1,(invalido),2026-08-11 12:43:19,20260811,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,3.0,,SES-20260811-124251-95778
 PS_boton_continuar_1,27006669617,2026-08-18 15:50:51,20260818,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,4.0,,SES-20260818-155030-61514
+PS_boton_continuar_1,27006686252,2026-08-28 16:44:35,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,4.0,,SES-20260828-164420-55688
 PS_boton_continuar_1,27008386973,2026-08-10 08:28:13,20260810,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,4.0,,SES-20260810-082750-97439
 PS_boton_continuar_1,27008619234,2026-08-18 08:29:56,20260818,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,15.0,,SES-20260818-082931-40682
 PS_boton_continuar_1,27008931483,2026-08-18 08:45:39,20260818,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,27.0,,SES-20260818-084448-56578
@@ -25334,6 +25349,7 @@ PS_boton_continuar_1,27171951564,2026-06-04 10:59:44,20260604,/siferesimplificad
 PS_boton_continuar_1,27171951564,2026-07-08 07:04:53,20260708,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,22.0,,SES-20260708-070423-58505
 PS_boton_continuar_1,27171951564,2026-08-04 06:44:26,20260804,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,28.0,,SES-20260804-064339-97243
 PS_boton_continuar_1,27171951564,2026-08-10 12:00:41,20260810,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,4.0,,SES-20260810-120016-79391
+PS_boton_continuar_1,27173050750,2026-08-28 19:00:02,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,40.0,,SES-20260828-185907-67739
 PS_boton_continuar_1,27173161013,2026-08-12 11:47:46,20260812,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,10.0,,SES-20260812-114725-77275
 PS_boton_continuar_1,27173161013,2026-08-12 11:49:33,20260812,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,4.0,,SES-20260812-114725-77275
 PS_boton_continuar_1,27173197719,2026-08-10 18:21:07,20260810,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,24.0,,SES-20260810-182032-22418
@@ -25638,6 +25654,9 @@ PS_boton_continuar_1,27227778399,2026-08-06 11:16:33,20260806,/siferesimplificad
 PS_boton_continuar_1,27227807755,2026-05-17 20:24:21,20260517,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,8.0,,SES-20260517-202357-96177
 PS_boton_continuar_1,27227897045,2026-08-13 13:24:42,20260813,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,27.0,,SES-20260813-132342-29137
 PS_boton_continuar_1,27229140758,2026-05-20 16:46:12,20260520,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,6.0,,SES-20260520-164600-88218
+PS_boton_continuar_1,27229140758,2026-08-28 17:15:11,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,6.0,,SES-20260828-171457-34816
+PS_boton_continuar_1,27229140758,2026-08-28 17:16:10,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,12.0,,SES-20260828-171457-34816
+PS_boton_continuar_1,27229140758,2026-08-28 17:17:19,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,8.0,,SES-20260828-171457-34816
 PS_boton_continuar_1,27229391254,2026-08-11 09:42:15,20260811,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,7.0,,SES-20260811-094200-70599
 PS_boton_continuar_1,27229403112,2026-08-12 12:27:50,20260812,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260812-122747-91576
 PS_boton_continuar_1,27229536163,2026-05-15 08:30:15,20260515,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,12.0,,SES-20260515-082951-23809
@@ -28475,6 +28494,8 @@ PS_boton_continuar_1,30717786099,2026-06-22 19:01:46,20260622,/siferesimplificad
 PS_boton_continuar_1,30717786099,2026-06-22 19:03:30,20260622,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260622-185516-89283
 PS_boton_continuar_1,30717786099,2026-06-22 19:06:36,20260622,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260622-185516-89283
 PS_boton_continuar_1,30717786099,2026-06-22 19:07:14,20260622,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,7.0,,SES-20260622-185516-89283
+PS_boton_continuar_1,30717786099,2026-08-28 18:23:41,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,42.0,,SES-20260828-182026-22645
+PS_boton_continuar_1,30717786099,2026-08-28 18:23:53,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,11.0,,SES-20260828-182026-22645
 PS_boton_continuar_1,30717795020,2026-05-15 15:27:03,20260515,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,21.0,,SES-20260515-152635-27721
 PS_boton_continuar_1,30717795020,2026-05-15 15:28:02,20260515,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260515-152635-27721
 PS_boton_continuar_1,30717795020,2026-06-22 18:27:44,20260622,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,19.0,,SES-20260622-182703-70395
@@ -32894,6 +32915,7 @@ PS_boton_continuar_2,20082628399,2026-05-18 13:50:10,20260518,/siferesimplificad
 PS_boton_continuar_2,20082806270,2026-05-16 13:25:02,20260516,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260516-132417-48225
 PS_boton_continuar_2,20082806270,2026-06-17 16:52:46,20260617,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,9.0,,SES-20260617-165149-39699
 PS_boton_continuar_2,20082806270,2026-07-18 22:43:16,20260718,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,5.0,,SES-20260718-224242-81566
+PS_boton_continuar_2,20082806270,2026-08-29 20:05:02,20260829,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,8.0,,SES-20260829-200407-16818
 PS_boton_continuar_2,20083071843,2026-06-14 08:05:22,20260614,/siferesimplificada/datosfacturacion,desktop,Windows,Edge,1,7.0,,SES-20260614-080456-27002
 PS_boton_continuar_2,20083227657,2026-08-07 23:26:34,20260807,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,10.0,,SES-20260807-232605-95608
 PS_boton_continuar_2,20083305305,2026-08-16 11:36:58,20260816,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,5.0,,SES-20260816-113639-19258
@@ -33477,6 +33499,7 @@ PS_boton_continuar_2,20160606933,2026-08-13 16:29:16,20260813,/siferesimplificad
 PS_boton_continuar_2,20160606933,2026-08-13 16:31:50,20260813,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260813-162724-40380
 PS_boton_continuar_2,20161436322,2026-08-12 09:20:21,20260812,/siferesimplificada/datosfacturacion,desktop,Windows,Firefox,1,6.0,,SES-20260812-091919-55074
 PS_boton_continuar_2,20161553515,2026-06-12 12:45:05,20260612,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,15.0,,SES-20260612-124357-84765
+PS_boton_continuar_2,20161637948,2026-08-28 20:16:18,20260828,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,9.0,,SES-20260828-201510-92577
 PS_boton_continuar_2,20161700550,2026-08-12 14:18:19,20260812,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260812-141805-96305
 PS_boton_continuar_2,20161937380,2026-08-10 21:42:20,20260810,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,2.0,,SES-20260810-214205-34897
 PS_boton_continuar_2,20161937380,2026-08-13 20:37:37,20260813,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,11.0,,SES-20260813-203657-47788
@@ -35874,6 +35897,7 @@ PS_boton_continuar_2,23122823784,2026-05-17 14:44:26,20260517,/siferesimplificad
 PS_boton_continuar_2,23123809394,2026-08-21 17:46:16,20260821,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,0.0,,SES-20260821-174609-89253
 PS_boton_continuar_2,23124748704,2026-08-18 16:32:17,20260818,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,3.0,,SES-20260818-163016-97676
 PS_boton_continuar_2,23129808144,2026-07-28 16:00:08,20260728,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,11.0,,SES-20260728-155927-18419
+PS_boton_continuar_2,23129808144,2026-08-28 15:53:55,20260828,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,7.0,,SES-20260828-155320-99884
 PS_boton_continuar_2,23129836873,2026-05-18 18:05:01,20260518,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260518-180127-70255
 PS_boton_continuar_2,23130531709,2026-05-18 14:37:46,20260518,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,4.0,,SES-20260518-143736-77541
 PS_boton_continuar_2,23130531709,2026-06-17 10:18:14,20260617,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,3.0,,SES-20260617-101759-82105
@@ -36326,6 +36350,7 @@ PS_boton_continuar_2,(invalido),2026-07-03 15:00:12,20260703,/siferesimplificada
 PS_boton_continuar_2,(invalido),2026-08-04 16:03:27,20260804,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260804-160153-18102
 PS_boton_continuar_2,(invalido),2026-08-11 12:43:22,20260811,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260811-124251-95778
 PS_boton_continuar_2,27006669617,2026-08-18 15:50:58,20260818,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,6.0,,SES-20260818-155030-61514
+PS_boton_continuar_2,27006686252,2026-08-28 16:44:37,20260828,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,0.0,,SES-20260828-164420-55688
 PS_boton_continuar_2,27008386973,2026-08-10 08:28:18,20260810,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260810-082750-97439
 PS_boton_continuar_2,27008619234,2026-08-18 08:30:02,20260818,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,4.0,,SES-20260818-082931-40682
 PS_boton_continuar_2,27008931483,2026-08-18 08:45:51,20260818,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,10.0,,SES-20260818-084448-56578
@@ -37395,6 +37420,7 @@ PS_boton_continuar_2,27171951564,2026-06-04 10:59:51,20260604,/siferesimplificad
 PS_boton_continuar_2,27171951564,2026-07-08 07:04:56,20260708,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260708-070423-58505
 PS_boton_continuar_2,27171951564,2026-08-04 06:44:28,20260804,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260804-064339-97243
 PS_boton_continuar_2,27171951564,2026-08-10 12:00:47,20260810,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,4.0,,SES-20260810-120016-79391
+PS_boton_continuar_2,27173050750,2026-08-28 19:00:34,20260828,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,0.0,,SES-20260828-185907-67739
 PS_boton_continuar_2,27173161013,2026-08-12 11:48:01,20260812,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,6.0,,SES-20260812-114725-77275
 PS_boton_continuar_2,27173161013,2026-08-12 11:49:36,20260812,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,2.0,,SES-20260812-114725-77275
 PS_boton_continuar_2,27173197719,2026-08-10 18:21:20,20260810,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,11.0,,SES-20260810-182032-22418
@@ -37692,6 +37718,9 @@ PS_boton_continuar_2,27227778399,2026-08-06 11:16:40,20260806,/siferesimplificad
 PS_boton_continuar_2,27227807755,2026-05-17 20:24:24,20260517,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260517-202357-96177
 PS_boton_continuar_2,27227897045,2026-08-13 13:24:49,20260813,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,6.0,,SES-20260813-132342-29137
 PS_boton_continuar_2,27229140758,2026-05-20 16:46:15,20260520,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260520-164600-88218
+PS_boton_continuar_2,27229140758,2026-08-28 17:15:20,20260828,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,7.0,,SES-20260828-171457-34816
+PS_boton_continuar_2,27229140758,2026-08-28 17:16:12,20260828,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260828-171457-34816
+PS_boton_continuar_2,27229140758,2026-08-28 17:17:20,20260828,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
 PS_boton_continuar_2,27229391254,2026-08-11 09:42:19,20260811,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,0.0,,SES-20260811-094200-70599
 PS_boton_continuar_2,27229403112,2026-08-12 12:27:51,20260812,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,0.0,,SES-20260812-122747-91576
 PS_boton_continuar_2,27229536163,2026-05-15 08:30:32,20260515,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,15.0,,SES-20260515-082951-23809
@@ -44259,6 +44288,7 @@ PS_boton_continuar_3,20082628399,2026-05-18 13:50:12,20260518,/siferesimplificad
 PS_boton_continuar_3,20082806270,2026-05-16 13:25:07,20260516,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260516-132417-48225
 PS_boton_continuar_3,20082806270,2026-06-17 16:52:55,20260617,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,8.0,,SES-20260617-165149-39699
 PS_boton_continuar_3,20082806270,2026-07-18 22:43:21,20260718,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260718-224242-81566
+PS_boton_continuar_3,20082806270,2026-08-29 20:05:14,20260829,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,10.0,,SES-20260829-200407-16818
 PS_boton_continuar_3,20083071843,2026-06-14 08:05:24,20260614,/siferesimplificada/impuestodeterminado,desktop,Windows,Edge,1,1.0,,SES-20260614-080456-27002
 PS_boton_continuar_3,20083227657,2026-08-07 23:26:42,20260807,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,6.0,,SES-20260807-232605-95608
 PS_boton_continuar_3,20083580314,2026-07-15 20:15:28,20260715,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260715-201420-73399
@@ -44845,6 +44875,7 @@ PS_boton_continuar_3,20160606933,2026-08-13 16:30:03,20260813,/siferesimplificad
 PS_boton_continuar_3,20160606933,2026-08-13 16:31:54,20260813,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260813-162724-40380
 PS_boton_continuar_3,20161436322,2026-08-12 09:20:33,20260812,/siferesimplificada/impuestodeterminado,desktop,Windows,Firefox,1,10.0,,SES-20260812-091919-55074
 PS_boton_continuar_3,20161553515,2026-06-12 12:47:10,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,48.0,,SES-20260612-124357-84765
+PS_boton_continuar_3,20161637948,2026-08-28 20:16:26,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,7.0,,SES-20260828-201510-92577
 PS_boton_continuar_3,20161700550,2026-08-12 14:18:23,20260812,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260812-141805-96305
 PS_boton_continuar_3,20161937380,2026-08-10 21:42:22,20260810,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260810-214205-34897
 PS_boton_continuar_3,20161937380,2026-08-13 20:37:38,20260813,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260813-203657-47788
@@ -47214,6 +47245,7 @@ PS_boton_continuar_3,23124748704,2026-08-18 16:32:20,20260818,/siferesimplificad
 PS_boton_continuar_3,23124748704,2026-08-18 16:32:41,20260818,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260818-163016-97676
 PS_boton_continuar_3,23129808144,2026-07-28 16:00:13,20260728,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260728-155927-18419
 PS_boton_continuar_3,23129808144,2026-07-28 16:02:05,20260728,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260728-155927-18419
+PS_boton_continuar_3,23129808144,2026-08-28 15:54:02,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,5.0,,SES-20260828-155320-99884
 PS_boton_continuar_3,23129836873,2026-05-18 18:05:06,20260518,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260518-180127-70255
 PS_boton_continuar_3,23130531709,2026-05-18 14:37:48,20260518,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260518-143736-77541
 PS_boton_continuar_3,23130531709,2026-06-17 10:18:17,20260617,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260617-101759-82105
@@ -47658,6 +47690,7 @@ PS_boton_continuar_3,(invalido),2026-07-03 15:00:16,20260703,/siferesimplificada
 PS_boton_continuar_3,(invalido),2026-08-04 16:03:44,20260804,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260804-160153-18102
 PS_boton_continuar_3,(invalido),2026-08-11 12:43:31,20260811,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,8.0,,SES-20260811-124251-95778
 PS_boton_continuar_3,27006669617,2026-08-18 15:51:06,20260818,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,6.0,,SES-20260818-155030-61514
+PS_boton_continuar_3,27006686252,2026-08-28 16:44:40,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260828-164420-55688
 PS_boton_continuar_3,27008386973,2026-08-10 08:28:21,20260810,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260810-082750-97439
 PS_boton_continuar_3,27008619234,2026-08-18 08:30:29,20260818,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260818-082931-40682
 PS_boton_continuar_3,27008931483,2026-08-18 08:47:09,20260818,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,77.0,,SES-20260818-084448-56578
@@ -48712,6 +48745,7 @@ PS_boton_continuar_3,27171951564,2026-06-04 11:00:05,20260604,/siferesimplificad
 PS_boton_continuar_3,27171951564,2026-07-08 07:05:01,20260708,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260708-070423-58505
 PS_boton_continuar_3,27171951564,2026-08-04 06:44:31,20260804,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260804-064339-97243
 PS_boton_continuar_3,27171951564,2026-08-10 12:00:53,20260810,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,5.0,,SES-20260810-120016-79391
+PS_boton_continuar_3,27173050750,2026-08-28 19:00:39,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260828-185907-67739
 PS_boton_continuar_3,27173161013,2026-08-12 11:48:42,20260812,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,39.0,,SES-20260812-114725-77275
 PS_boton_continuar_3,27173161013,2026-08-12 11:49:42,20260812,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260812-114725-77275
 PS_boton_continuar_3,27173197719,2026-08-10 18:21:53,20260810,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260810-182032-22418
@@ -49009,6 +49043,11 @@ PS_boton_continuar_3,27227778399,2026-08-06 11:16:45,20260806,/siferesimplificad
 PS_boton_continuar_3,27227807755,2026-05-17 20:24:31,20260517,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,5.0,,SES-20260517-202357-96177
 PS_boton_continuar_3,27227897045,2026-08-13 13:25:37,20260813,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,46.0,,SES-20260813-132342-29137
 PS_boton_continuar_3,27229140758,2026-05-20 16:46:16,20260520,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260520-164600-88218
+PS_boton_continuar_3,27229140758,2026-08-28 17:15:27,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,5.0,,SES-20260828-171457-34816
+PS_boton_continuar_3,27229140758,2026-08-28 17:15:44,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
+PS_boton_continuar_3,27229140758,2026-08-28 17:16:22,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,8.0,,SES-20260828-171457-34816
+PS_boton_continuar_3,27229140758,2026-08-28 17:17:22,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
+PS_boton_continuar_3,27229140758,2026-08-28 17:18:01,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260828-171457-34816
 PS_boton_continuar_3,27229391254,2026-08-11 09:42:28,20260811,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,8.0,,SES-20260811-094200-70599
 PS_boton_continuar_3,27229403112,2026-08-12 12:27:51,20260812,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260812-122747-91576
 PS_boton_continuar_3,27229536163,2026-05-15 08:30:47,20260515,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260515-082951-23809
@@ -55525,6 +55564,7 @@ PS_boton_continuar_4,20082628399,2026-05-18 13:50:19,20260518,/siferesimplificad
 PS_boton_continuar_4,20082806270,2026-05-16 13:25:15,20260516,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,6.0,,SES-20260516-132417-48225
 PS_boton_continuar_4,20082806270,2026-06-17 16:53:19,20260617,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,23.0,,SES-20260617-165149-39699
 PS_boton_continuar_4,20082806270,2026-07-18 22:43:31,20260718,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,8.0,,SES-20260718-224242-81566
+PS_boton_continuar_4,20082806270,2026-08-29 20:05:22,20260829,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,6.0,,SES-20260829-200407-16818
 PS_boton_continuar_4,20083071843,2026-06-14 08:05:29,20260614,/siferesimplificada/deducciones,desktop,Windows,Edge,1,3.0,,SES-20260614-080456-27002
 PS_boton_continuar_4,20083227657,2026-08-07 23:26:47,20260807,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,3.0,,SES-20260807-232605-95608
 PS_boton_continuar_4,20083580314,2026-07-15 20:15:32,20260715,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,3.0,,SES-20260715-201420-73399
@@ -58170,6 +58210,7 @@ PS_boton_continuar_4,23124748704,2026-08-18 16:32:27,20260818,/siferesimplificad
 PS_boton_continuar_4,23124748704,2026-08-18 16:32:42,20260818,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,1.0,,SES-20260818-163016-97676
 PS_boton_continuar_4,23129808144,2026-07-28 16:00:54,20260728,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,13.0,,SES-20260728-155927-18419
 PS_boton_continuar_4,23129808144,2026-07-28 16:01:33,20260728,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,5.0,,SES-20260728-155927-18419
+PS_boton_continuar_4,23129808144,2026-08-28 15:54:08,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,4.0,,SES-20260828-155320-99884
 PS_boton_continuar_4,23129836873,2026-05-18 18:05:08,20260518,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,0.0,,SES-20260518-180127-70255
 PS_boton_continuar_4,23130531709,2026-05-18 14:37:51,20260518,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,1.0,,SES-20260518-143736-77541
 PS_boton_continuar_4,23130531709,2026-06-17 10:18:18,20260617,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,0.0,,SES-20260617-101759-82105
@@ -58575,6 +58616,7 @@ PS_boton_continuar_4,(invalido),2026-08-04 16:03:52,20260804,/siferesimplificada
 PS_boton_continuar_4,(invalido),2026-08-11 12:43:39,20260811,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,6.0,,SES-20260811-124251-95778
 PS_boton_continuar_4,(invalido),2026-08-11 12:43:58,20260811,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,15.0,,SES-20260811-124251-95778
 PS_boton_continuar_4,27006669617,2026-08-18 15:51:27,20260818,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,19.0,,SES-20260818-155030-61514
+PS_boton_continuar_4,27006686252,2026-08-28 16:44:44,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,3.0,,SES-20260828-164420-55688
 PS_boton_continuar_4,27008386973,2026-08-10 08:28:23,20260810,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,1.0,,SES-20260810-082750-97439
 PS_boton_continuar_4,27008619234,2026-08-18 08:30:43,20260818,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,12.0,,SES-20260818-082931-40682
 PS_boton_continuar_4,27008931483,2026-08-18 08:47:16,20260818,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,4.0,,SES-20260818-084448-56578
@@ -59588,6 +59630,8 @@ PS_boton_continuar_4,27171458817,2026-08-14 11:34:44,20260814,/siferesimplificad
 PS_boton_continuar_4,27171484125,2026-08-17 21:08:40,20260817,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,14.0,,SES-20260817-210735-44099
 PS_boton_continuar_4,27171951564,2026-06-04 11:00:13,20260604,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,7.0,,SES-20260604-105841-68110
 PS_boton_continuar_4,27171951564,2026-07-08 07:05:22,20260708,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,18.0,,SES-20260708-070423-58505
+PS_boton_continuar_4,27173050750,2026-08-28 19:00:51,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,10.0,,SES-20260828-185907-67739
+PS_boton_continuar_4,27173050750,2026-08-28 19:02:11,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,36.0,,SES-20260828-185907-67739
 PS_boton_continuar_4,27173161013,2026-08-12 11:49:46,20260812,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,2.0,,SES-20260812-114725-77275
 PS_boton_continuar_4,27173197719,2026-08-10 18:22:37,20260810,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,42.0,,SES-20260810-182032-22418
 PS_boton_continuar_4,27173389049,2026-06-04 11:14:10,20260604,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,2.0,,SES-20260604-111346-21102
@@ -59849,6 +59893,8 @@ PS_boton_continuar_4,27227778399,2026-07-14 09:27:25,20260714,/siferesimplificad
 PS_boton_continuar_4,27227778399,2026-08-06 11:16:54,20260806,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,7.0,,SES-20260806-111304-48927
 PS_boton_continuar_4,27227807755,2026-05-17 20:24:34,20260517,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,2.0,,SES-20260517-202357-96177
 PS_boton_continuar_4,27229140758,2026-05-20 16:46:18,20260520,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,0.0,,SES-20260520-164600-88218
+PS_boton_continuar_4,27229140758,2026-08-28 17:16:36,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,13.0,,SES-20260828-171457-34816
+PS_boton_continuar_4,27229140758,2026-08-28 17:18:03,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
 PS_boton_continuar_4,27229391254,2026-08-11 09:42:31,20260811,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,1.0,,SES-20260811-094200-70599
 PS_boton_continuar_4,27229403112,2026-08-12 12:27:52,20260812,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,0.0,,SES-20260812-122747-91576
 PS_boton_continuar_4,27229536163,2026-05-15 08:30:54,20260515,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,5.0,,SES-20260515-082951-23809
@@ -65788,6 +65834,7 @@ PS_boton_continuar_5,20082628399,2026-05-18 13:50:27,20260518,/siferesimplificad
 PS_boton_continuar_5,20082806270,2026-05-16 13:25:17,20260516,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,1.0,,SES-20260516-132417-48225
 PS_boton_continuar_5,20082806270,2026-06-17 16:53:26,20260617,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,5.0,,SES-20260617-165149-39699
 PS_boton_continuar_5,20082806270,2026-07-18 22:43:33,20260718,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,1.0,,SES-20260718-224242-81566
+PS_boton_continuar_5,20082806270,2026-08-29 20:05:24,20260829,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,1.0,,SES-20260829-200407-16818
 PS_boton_continuar_5,20083071843,2026-06-14 08:05:34,20260614,/siferesimplificada/debitoscreditos,desktop,Windows,Edge,1,4.0,,SES-20260614-080456-27002
 PS_boton_continuar_5,20083227657,2026-08-07 23:26:50,20260807,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,1.0,,SES-20260807-232605-95608
 PS_boton_continuar_5,20083580314,2026-07-15 20:15:47,20260715,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,13.0,,SES-20260715-201420-73399
@@ -68208,6 +68255,7 @@ PS_boton_continuar_5,23123809394,2026-08-21 17:46:18,20260821,/siferesimplificad
 PS_boton_continuar_5,23124748704,2026-08-18 16:32:30,20260818,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,1.0,,SES-20260818-163016-97676
 PS_boton_continuar_5,23124748704,2026-08-18 16:32:43,20260818,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,0.0,,SES-20260818-163016-97676
 PS_boton_continuar_5,23129808144,2026-07-28 16:01:00,20260728,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,4.0,,SES-20260728-155927-18419
+PS_boton_continuar_5,23129808144,2026-08-28 15:54:11,20260828,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,2.0,,SES-20260828-155320-99884
 PS_boton_continuar_5,23129836873,2026-05-18 18:05:10,20260518,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,1.0,,SES-20260518-180127-70255
 PS_boton_continuar_5,23130531709,2026-05-18 14:37:52,20260518,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,0.0,,SES-20260518-143736-77541
 PS_boton_continuar_5,23130531709,2026-06-17 10:18:22,20260617,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,2.0,,SES-20260617-101759-82105
@@ -68576,6 +68624,7 @@ PS_boton_continuar_5,(invalido),2026-07-03 15:01:14,20260703,/siferesimplificada
 PS_boton_continuar_5,(invalido),2026-08-04 16:03:55,20260804,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,1.0,,SES-20260804-160153-18102
 PS_boton_continuar_5,(invalido),2026-08-11 12:43:59,20260811,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,0.0,,SES-20260811-124251-95778
 PS_boton_continuar_5,27006669617,2026-08-18 15:51:42,20260818,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,14.0,,SES-20260818-155030-61514
+PS_boton_continuar_5,27006686252,2026-08-28 16:44:45,20260828,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,0.0,,SES-20260828-164420-55688
 PS_boton_continuar_5,27008386973,2026-08-10 08:28:24,20260810,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,0.0,,SES-20260810-082750-97439
 PS_boton_continuar_5,27008619234,2026-08-18 08:30:46,20260818,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,2.0,,SES-20260818-082931-40682
 PS_boton_continuar_5,27008931483,2026-08-18 08:47:24,20260818,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,7.0,,SES-20260818-084448-56578
@@ -69515,6 +69564,8 @@ PS_boton_continuar_5,27171458817,2026-08-14 11:34:44,20260814,/siferesimplificad
 PS_boton_continuar_5,27171484125,2026-08-17 21:08:45,20260817,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,3.0,,SES-20260817-210735-44099
 PS_boton_continuar_5,27171951564,2026-06-04 11:00:21,20260604,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,6.0,,SES-20260604-105841-68110
 PS_boton_continuar_5,27171951564,2026-07-08 07:05:27,20260708,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,4.0,,SES-20260708-070423-58505
+PS_boton_continuar_5,27173050750,2026-08-28 19:00:57,20260828,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,5.0,,SES-20260828-185907-67739
+PS_boton_continuar_5,27173050750,2026-08-28 19:02:13,20260828,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,0.0,,SES-20260828-185907-67739
 PS_boton_continuar_5,27173161013,2026-08-12 11:49:50,20260812,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,2.0,,SES-20260812-114725-77275
 PS_boton_continuar_5,27173197719,2026-08-10 18:22:48,20260810,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,10.0,,SES-20260810-182032-22418
 PS_boton_continuar_5,27173389049,2026-06-04 11:14:18,20260604,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,6.0,,SES-20260604-111346-21102
@@ -69759,6 +69810,7 @@ PS_boton_continuar_5,27227778399,2026-07-14 09:27:31,20260714,/siferesimplificad
 PS_boton_continuar_5,27227778399,2026-08-06 11:17:25,20260806,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,17.0,,SES-20260806-111304-48927
 PS_boton_continuar_5,27227807755,2026-05-17 20:24:50,20260517,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,15.0,,SES-20260517-202357-96177
 PS_boton_continuar_5,27229140758,2026-05-20 16:46:20,20260520,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,1.0,,SES-20260520-164600-88218
+PS_boton_continuar_5,27229140758,2026-08-28 17:18:04,20260828,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
 PS_boton_continuar_5,27229391254,2026-08-11 09:42:34,20260811,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,1.0,,SES-20260811-094200-70599
 PS_boton_continuar_5,27229403112,2026-08-12 12:27:53,20260812,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,0.0,,SES-20260812-122747-91576
 PS_boton_continuar_5,27229536163,2026-05-15 08:30:57,20260515,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,2.0,,SES-20260515-082951-23809
@@ -77491,6 +77543,7 @@ PS_boton_generar_volante_de_pago,20082806270,2026-05-16 13:25:35,20260516,/sifer
 PS_boton_generar_volante_de_pago,20082806270,2026-06-17 16:54:10,20260617,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,6.0,,SES-20260617-165149-39699
 PS_boton_generar_volante_de_pago,20082806270,2026-07-18 22:43:43,20260718,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,4.0,,SES-20260718-224242-81566
 PS_boton_generar_volante_de_pago,20082806270,2026-07-18 22:43:51,20260718,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,3.0,,SES-20260718-224242-81566
+PS_boton_generar_volante_de_pago,20082806270,2026-08-29 20:05:38,20260829,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,3.0,,SES-20260829-200407-16818
 PS_boton_generar_volante_de_pago,20083580314,2026-07-15 20:18:10,20260715,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,1.0,,SES-20260715-201420-73399
 PS_boton_generar_volante_de_pago,20083580314,2026-08-10 20:30:23,20260810,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,5.0,,SES-20260810-202939-83996
 PS_boton_generar_volante_de_pago,20083970872,2026-08-12 10:21:29,20260812,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,3.0,,SES-20260812-102007-93987
@@ -80724,6 +80777,7 @@ PS_boton_ir_dj_mensual_desde_deducciones,20160295709,2026-07-12 13:10:15,2026071
 PS_boton_ir_dj_mensual_desde_deducciones,20160295709,2026-07-13 14:02:27,20260713,/siferesimplificada/deducciones,desktop,Linux,Firefox,1,16.0,,SES-20260713-140148-29579
 PS_boton_ir_dj_mensual_desde_deducciones,20160295709,2026-08-18 13:11:03,20260818,/siferesimplificada/deducciones,desktop,Linux,Firefox,1,58.0,,SES-20260818-130703-89087
 PS_boton_ir_dj_mensual_desde_deducciones,20160606933,2026-08-13 16:30:37,20260813,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,33.0,,SES-20260813-162724-40380
+PS_boton_ir_dj_mensual_desde_deducciones,20161637948,2026-08-28 20:16:38,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,10.0,,SES-20260828-201510-92577
 PS_boton_ir_dj_mensual_desde_deducciones,20163445485,2026-08-14 11:48:51,20260814,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,10.0,,SES-20260814-114535-86107
 PS_boton_ir_dj_mensual_desde_deducciones,20163636108,2026-05-20 15:12:45,20260520,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,13.0,,SES-20260520-151203-66359
 PS_boton_ir_dj_mensual_desde_deducciones,20164169732,2026-05-21 16:23:15,20260521,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,1.0,,SES-20260521-162226-21935
@@ -84123,6 +84177,7 @@ PS_boton_ir_dj_mensual_normal,23112444904,2026-06-02 17:49:52,20260602,/siferesi
 PS_boton_ir_dj_mensual_normal,23112444904,2026-08-05 18:33:29,20260805,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260805-183323-62495
 PS_boton_ir_dj_mensual_normal,23124748704,2026-08-18 16:31:27,20260818,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260818-163016-97676
 PS_boton_ir_dj_mensual_normal,23129808144,2026-07-28 15:59:40,20260728,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260728-155927-18419
+PS_boton_ir_dj_mensual_normal,23129808144,2026-08-28 15:53:26,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260828-155320-99884
 PS_boton_ir_dj_mensual_normal,23131617259,2026-08-19 16:36:16,20260819,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,5.0,,SES-20260819-163438-62246
 PS_boton_ir_dj_mensual_normal,23134627034,2026-05-11 13:39:31,20260511,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260511-133846-65510
 PS_boton_ir_dj_mensual_normal,23136782304,2026-05-14 18:41:51,20260514,/siferesimplificada/datosnivelpais,desktop,Windows,Firefox,1,14.0,,SES-20260514-184136-88313
@@ -84780,6 +84835,10 @@ PS_boton_ir_dj_mensual_normal,27227629911,2026-07-15 12:32:48,20260715,/siferesi
 PS_boton_ir_dj_mensual_normal,27227778399,2026-07-14 09:24:39,20260714,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260714-092414-98478
 PS_boton_ir_dj_mensual_normal,27227897045,2026-08-13 13:24:15,20260813,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260813-132342-29137
 PS_boton_ir_dj_mensual_normal,27227897045,2026-08-13 13:28:56,20260813,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,10.0,,SES-20260813-132342-29137
+PS_boton_ir_dj_mensual_normal,27229140758,2026-08-28 17:17:32,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
+PS_boton_ir_dj_mensual_normal,27229140758,2026-08-28 17:17:42,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
+PS_boton_ir_dj_mensual_normal,27229140758,2026-08-28 17:17:45,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
+PS_boton_ir_dj_mensual_normal,27229140758,2026-08-28 17:17:57,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
 PS_boton_ir_dj_mensual_normal,27229224358,2026-08-18 19:44:23,20260818,/siferesimplificada/baseimponible,desktop,Windows,Edge,1,8.0,,SES-20260818-194406-14347
 PS_boton_ir_dj_mensual_normal,27229391254,2026-08-11 09:42:08,20260811,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260811-094200-70599
 PS_boton_ir_dj_mensual_normal,27231336929,2026-07-14 16:19:16,20260714,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,2.0,,SES-20260714-161913-18292
@@ -85822,6 +85881,7 @@ PS_boton_ir_dj_mensual_normal,30717786099,2026-06-22 19:01:59,20260622,/siferesi
 PS_boton_ir_dj_mensual_normal,30717786099,2026-06-22 19:04:40,20260622,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,4.0,,SES-20260622-185516-89283
 PS_boton_ir_dj_mensual_normal,30717786099,2026-06-22 19:07:39,20260622,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260622-185516-89283
 PS_boton_ir_dj_mensual_normal,30717786099,2026-06-22 19:08:31,20260622,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,14.0,,SES-20260622-185516-89283
+PS_boton_ir_dj_mensual_normal,30717786099,2026-08-28 18:24:17,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,6.0,,SES-20260828-182026-22645
 PS_boton_ir_dj_mensual_normal,30717795020,2026-07-16 20:44:44,20260716,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260716-204416-42829
 PS_boton_ir_dj_mensual_normal,30717809862,2026-06-12 14:33:24,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260612-142712-73475
 PS_boton_ir_dj_mensual_normal,30717809862,2026-06-12 14:34:00,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260612-142712-73475
@@ -88215,6 +88275,7 @@ PS_boton_ir_listado_ddjj,23112444904,2026-08-05 18:33:29,20260805,/siferesimplif
 PS_boton_ir_listado_ddjj,23112444904,2026-08-05 18:36:28,20260805,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,4.0,,SES-20260805-183323-62495
 PS_boton_ir_listado_ddjj,23124748704,2026-08-18 16:31:27,20260818,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260818-163016-97676
 PS_boton_ir_listado_ddjj,23129808144,2026-07-28 15:59:40,20260728,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,2.0,,SES-20260728-155927-18419
+PS_boton_ir_listado_ddjj,23129808144,2026-08-28 15:53:26,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,1.0,,SES-20260828-155320-99884
 PS_boton_ir_listado_ddjj,23131617259,2026-08-19 16:35:36,20260819,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,20.0,,SES-20260819-163438-62246
 PS_boton_ir_listado_ddjj,23134627034,2026-05-11 13:39:31,20260511,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,24.0,,SES-20260511-133846-65510
 PS_boton_ir_listado_ddjj,23135889954,2026-06-16 17:12:02,20260616,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,6.0,,SES-20260616-171051-52026
@@ -88356,6 +88417,7 @@ PS_boton_ir_listado_ddjj,(invalido),2026-08-13 17:55:02,20260813,/siferesimplifi
 PS_boton_ir_listado_ddjj,(invalido),2026-08-13 18:02:21,20260813,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,69.0,,SES-20260813-175423-41732
 PS_boton_ir_listado_ddjj,(invalido),2026-06-04 10:52:07,20260604,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,0.0,,SES-20260604-105158-17145
 PS_boton_ir_listado_ddjj,(invalido),2026-08-11 12:44:10,20260811,/siferesimplificada/debitoscreditos,desktop,Windows,Chrome,1,1.0,,SES-20260811-124251-95778
+PS_boton_ir_listado_ddjj,27006686252,2026-08-28 16:44:52,20260828,/siferesimplificada/generarpago,desktop,Windows,Chrome,1,4.0,,SES-20260828-164420-55688
 PS_boton_ir_listado_ddjj,27008619234,2026-08-18 08:30:21,20260818,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260818-082931-40682
 PS_boton_ir_listado_ddjj,27008931483,2026-08-18 08:45:05,20260818,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,17.0,,SES-20260818-084448-56578
 PS_boton_ir_listado_ddjj,27028300331,2026-08-13 08:27:54,20260813,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,2.0,,SES-20260813-082635-70396
@@ -88719,6 +88781,10 @@ PS_boton_ir_listado_ddjj,27226372925,2026-08-13 09:02:35,20260813,/siferesimplif
 PS_boton_ir_listado_ddjj,27227629911,2026-07-15 12:32:48,20260715,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260715-123242-97072
 PS_boton_ir_listado_ddjj,27227778399,2026-07-14 09:24:39,20260714,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,6.0,,SES-20260714-092414-98478
 PS_boton_ir_listado_ddjj,27227897045,2026-08-13 13:24:15,20260813,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,10.0,,SES-20260813-132342-29137
+PS_boton_ir_listado_ddjj,27229140758,2026-08-28 17:17:32,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260828-171457-34816
+PS_boton_ir_listado_ddjj,27229140758,2026-08-28 17:17:42,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,7.0,,SES-20260828-171457-34816
+PS_boton_ir_listado_ddjj,27229140758,2026-08-28 17:17:45,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260828-171457-34816
+PS_boton_ir_listado_ddjj,27229140758,2026-08-28 17:17:57,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260828-171457-34816
 PS_boton_ir_listado_ddjj,27229391254,2026-08-11 09:42:08,20260811,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,1.0,,SES-20260811-094200-70599
 PS_boton_ir_listado_ddjj,27233256183,2026-08-11 14:06:36,20260811,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,4.0,,SES-20260811-140627-14503
 PS_boton_ir_listado_ddjj,27234025398,2026-08-13 16:36:30,20260813,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,1.0,,SES-20260813-163609-41832
@@ -89555,6 +89621,7 @@ PS_boton_ir_listado_ddjj,30717766322,2026-07-14 11:57:04,20260714,/siferesimplif
 PS_boton_ir_listado_ddjj,30717766322,2026-07-14 11:57:30,20260714,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260714-115649-33953
 PS_boton_ir_listado_ddjj,30717766322,2026-07-14 11:58:27,20260714,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260714-115649-33953
 PS_boton_ir_listado_ddjj,30717786099,2026-06-22 19:07:39,20260622,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,5.0,,SES-20260622-185516-89283
+PS_boton_ir_listado_ddjj,30717786099,2026-08-28 18:20:38,20260828,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,11.0,,SES-20260828-182026-22645
 PS_boton_ir_listado_ddjj,30717795020,2026-07-16 20:44:44,20260716,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,0.0,,SES-20260716-204416-42829
 PS_boton_ir_listado_ddjj,30717809862,2026-06-12 14:33:24,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,12.0,,SES-20260612-142712-73475
 PS_boton_ir_listado_ddjj,30717809862,2026-06-12 14:34:00,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260612-142712-73475
@@ -91019,6 +91086,7 @@ PS_boton_presentar_y_generar_pago,20082612085,2026-08-14 09:51:27,20260814,/sife
 PS_boton_presentar_y_generar_pago,20082806270,2026-05-16 13:25:25,20260516,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,6.0,,SES-20260516-132417-48225
 PS_boton_presentar_y_generar_pago,20082806270,2026-06-17 16:54:03,20260617,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,35.0,,SES-20260617-165149-39699
 PS_boton_presentar_y_generar_pago,20082806270,2026-07-18 22:43:38,20260718,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,3.0,,SES-20260718-224242-81566
+PS_boton_presentar_y_generar_pago,20082806270,2026-08-29 20:05:33,20260829,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,8.0,,SES-20260829-200407-16818
 PS_boton_presentar_y_generar_pago,20083580314,2026-07-15 20:18:06,20260715,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,13.0,,SES-20260715-201420-73399
 PS_boton_presentar_y_generar_pago,20083580314,2026-08-10 20:30:16,20260810,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,8.0,,SES-20260810-202939-83996
 PS_boton_presentar_y_generar_pago,20083970872,2026-08-12 10:21:25,20260812,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,6.0,,SES-20260812-102007-93987
@@ -91943,6 +92011,7 @@ PS_boton_presentar_y_generar_pago,24434339002,2026-06-16 20:11:31,20260616,/sife
 PS_boton_presentar_y_generar_pago,24434339002,2026-06-16 20:11:45,20260616,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,13.0,,SES-20260616-200544-19729
 PS_boton_presentar_y_generar_pago,(invalido),2026-08-13 17:59:07,20260813,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,35.0,,SES-20260813-175423-41732
 PS_boton_presentar_y_generar_pago,(invalido),2026-06-04 10:55:00,20260604,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,15.0,,SES-20260604-105158-17145
+PS_boton_presentar_y_generar_pago,27006686252,2026-08-28 16:44:46,20260828,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,0.0,,SES-20260828-164420-55688
 PS_boton_presentar_y_generar_pago,27008931483,2026-08-18 08:47:54,20260818,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,29.0,,SES-20260818-084448-56578
 PS_boton_presentar_y_generar_pago,27014450411,2026-08-13 15:22:24,20260813,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,12.0,,SES-20260813-152057-10360
 PS_boton_presentar_y_generar_pago,27024539941,2026-05-14 16:15:32,20260514,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,19.0,,SES-20260514-161229-32535
@@ -96388,6 +96457,7 @@ PS_boton_presentar_y_salir,23121355949,2026-07-16 09:43:53,20260716,/siferesimpl
 PS_boton_presentar_y_salir,23122192644,2026-05-15 19:46:33,20260515,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,2.0,,SES-20260515-194436-17470
 PS_boton_presentar_y_salir,23122192644,2026-08-16 10:55:47,20260816,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,2.0,,SES-20260816-105426-51671
 PS_boton_presentar_y_salir,23123809394,2026-08-21 17:46:20,20260821,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,0.0,,SES-20260821-174609-89253
+PS_boton_presentar_y_salir,23129808144,2026-08-28 15:54:21,20260828,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,9.0,,SES-20260828-155320-99884
 PS_boton_presentar_y_salir,23130531709,2026-05-18 14:37:55,20260518,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,2.0,,SES-20260518-143736-77541
 PS_boton_presentar_y_salir,23130531709,2026-06-17 10:18:24,20260617,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,1.0,,SES-20260617-101759-82105
 PS_boton_presentar_y_salir,23130531709,2026-07-09 12:55:00,20260709,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,1.0,,SES-20260709-125432-46997
@@ -97085,6 +97155,7 @@ PS_boton_presentar_y_salir,27171405276,2026-06-16 11:19:48,20260616,/siferesimpl
 PS_boton_presentar_y_salir,27171405276,2026-07-14 08:10:10,20260714,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,1.0,,SES-20260714-080946-99839
 PS_boton_presentar_y_salir,27171405276,2026-08-18 13:50:07,20260818,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,0.0,,SES-20260818-134946-25462
 PS_boton_presentar_y_salir,27171458817,2026-08-14 11:34:50,20260814,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,4.0,,SES-20260814-113336-48882
+PS_boton_presentar_y_salir,27173050750,2026-08-28 19:02:59,20260828,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,45.0,,SES-20260828-185907-67739
 PS_boton_presentar_y_salir,27173704408,2026-07-16 12:25:46,20260716,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,0.0,,SES-20260716-122340-39087
 PS_boton_presentar_y_salir,27173719332,2026-08-20 10:14:51,20260820,/siferesimplificada/finalizardj,desktop,Windows,Edge,1,2.0,,SES-20260820-101432-88949
 PS_boton_presentar_y_salir,27174218094,2026-07-06 19:57:21,20260706,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,0.0,,SES-20260706-195712-20930
@@ -97235,6 +97306,7 @@ PS_boton_presentar_y_salir,27227629911,2026-06-16 12:48:50,20260616,/siferesimpl
 PS_boton_presentar_y_salir,27227629911,2026-06-16 12:49:00,20260616,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,3.0,,SES-20260616-124720-74328
 PS_boton_presentar_y_salir,27227629911,2026-08-16 16:09:02,20260816,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,1.0,,SES-20260816-160841-16163
 PS_boton_presentar_y_salir,27227807755,2026-05-17 20:24:56,20260517,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,4.0,,SES-20260517-202357-96177
+PS_boton_presentar_y_salir,27229140758,2026-08-28 17:18:16,20260828,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,11.0,,SES-20260828-171457-34816
 PS_boton_presentar_y_salir,27229391254,2026-08-11 09:42:39,20260811,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,3.0,,SES-20260811-094200-70599
 PS_boton_presentar_y_salir,27229403112,2026-08-12 12:27:54,20260812,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,0.0,,SES-20260812-122747-91576
 PS_boton_presentar_y_salir,27230323009,2026-07-22 10:45:33,20260722,/siferesimplificada/finalizardj,desktop,Windows,Chrome,1,9.0,,SES-20260722-104458-40155
@@ -99294,6 +99366,7 @@ PS_boton_volver_1,30717493458,2026-06-22 08:56:41,20260622,/siferesimplificada/b
 PS_boton_volver_1,30717676757,2026-08-14 11:53:07,20260814,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,1.0,,SES-20260814-115301-14249
 PS_boton_volver_1,30717687074,2026-06-11 17:10:50,20260611,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,2.0,,SES-20260611-171030-93013
 PS_boton_volver_1,30717786099,2026-06-22 19:04:30,20260622,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,9.0,,SES-20260622-185516-89283
+PS_boton_volver_1,30717786099,2026-08-28 18:24:06,20260828,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,13.0,,SES-20260828-182026-22645
 PS_boton_volver_1,30717809862,2026-06-12 14:32:24,20260612,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,3.0,,SES-20260612-142712-73475
 PS_boton_volver_1,30717809862,2026-06-12 14:35:04,20260612,/siferesimplificada/datosnivelpais,desktop,Windows,Chrome,1,9.0,,SES-20260612-142712-73475
 PS_boton_volver_1,30718138449,2026-06-19 12:40:21,20260619,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,3.0,,SES-20260619-123958-34370
@@ -99593,6 +99666,8 @@ PS_boton_volver_2,27183178186,2026-05-20 10:01:49,20260520,/siferesimplificada/b
 PS_boton_volver_2,27216919608,2026-06-12 19:17:00,20260612,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,6.0,,SES-20260612-191558-27026
 PS_boton_volver_2,27220723025,2026-06-12 19:40:12,20260612,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,1.0,,SES-20260612-193856-66435
 PS_boton_volver_2,27222925539,2026-08-07 17:50:32,20260807,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260807-174919-14807
+PS_boton_volver_2,27229140758,2026-08-28 17:15:57,20260828,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260828-171457-34816
+PS_boton_volver_2,27229140758,2026-08-28 17:17:09,20260828,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260828-171457-34816
 PS_boton_volver_2,27230323009,2026-07-22 10:44:33,20260722,/siferesimplificada/baseimponibledetalle,desktop,Windows,Chrome,1,5.0,,SES-20260722-104349-27641
 PS_boton_volver_2,27236543841,2026-07-23 10:01:31,20260723,/siferesimplificada/baseimponible,desktop,Windows,Chrome,1,1.0,,SES-20260723-100051-44128
 PS_boton_volver_2,27237100897,2026-08-18 16:52:12,20260818,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,24.0,,SES-20260818-165050-98736
@@ -99979,6 +100054,8 @@ PS_boton_volver_3,27216879258,2026-08-14 22:11:44,20260814,/siferesimplificada/i
 PS_boton_volver_3,27216919608,2026-06-12 19:17:45,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,8.0,,SES-20260612-191558-27026
 PS_boton_volver_3,27220723025,2026-06-12 19:40:03,20260612,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,0.0,,SES-20260612-193856-66435
 PS_boton_volver_3,27220723025,2026-06-12 19:40:10,20260612,/siferesimplificada/datosfacturacion,desktop,Windows,Chrome,1,1.0,,SES-20260612-193856-66435
+PS_boton_volver_3,27229140758,2026-08-28 17:15:54,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260828-171457-34816
+PS_boton_volver_3,27229140758,2026-08-28 17:17:07,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260828-171457-34816
 PS_boton_volver_3,27236486139,2026-07-17 10:40:39,20260717,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,9.0,,SES-20260717-103615-70088
 PS_boton_volver_3,27236486139,2026-07-17 10:41:20,20260717,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260717-103615-70088
 PS_boton_volver_3,27237100897,2026-08-18 16:55:54,20260818,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,5.0,,SES-20260818-165050-98736
@@ -100422,6 +100499,9 @@ PS_boton_volver_4,27209874690,2026-07-15 09:03:06,20260715,/siferesimplificada/i
 PS_boton_volver_4,27220723025,2026-06-12 19:40:02,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260612-193856-66435
 PS_boton_volver_4,27223856905,2026-08-13 11:26:03,20260813,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,0.0,,SES-20260813-112313-85092
 PS_boton_volver_4,27223979128,2026-06-19 20:06:57,20260619,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,33.0,,SES-20260619-200426-39415
+PS_boton_volver_4,27229140758,2026-08-28 17:15:42,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,7.0,,SES-20260828-171457-34816
+PS_boton_volver_4,27229140758,2026-08-28 17:15:49,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,4.0,,SES-20260828-171457-34816
+PS_boton_volver_4,27229140758,2026-08-28 17:17:28,20260828,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,5.0,,SES-20260828-171457-34816
 PS_boton_volver_4,27236543841,2026-07-23 10:01:27,20260723,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260723-100051-44128
 PS_boton_volver_4,27237100897,2026-08-18 16:55:47,20260818,/siferesimplificada/deducciones,desktop,Windows,Chrome,1,83.0,,SES-20260818-165050-98736
 PS_boton_volver_4,27237639001,2026-05-15 22:51:02,20260515,/siferesimplificada/deducciones,desktop,Windows,Firefox,1,1.0,,SES-20260515-224917-38184
@@ -102963,6 +103043,8 @@ PS_editar_datos_impuesto_determinado,27222670158,2026-05-17 23:28:33,20260517,/s
 PS_editar_datos_impuesto_determinado,27223566664,2026-06-11 15:00:34,20260611,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,6.0,,SES-20260611-150012-82821
 PS_editar_datos_impuesto_determinado,27225289897,2026-08-11 21:41:50,20260811,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260811-214007-76734
 PS_editar_datos_impuesto_determinado,27226372925,2026-06-16 11:47:17,20260616,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,4.0,,SES-20260616-114636-57936
+PS_editar_datos_impuesto_determinado,27229140758,2026-08-28 17:17:30,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,0.0,,SES-20260828-171457-34816
+PS_editar_datos_impuesto_determinado,27229140758,2026-08-28 17:17:55,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,3.0,,SES-20260828-171457-34816
 PS_editar_datos_impuesto_determinado,27236577401,2026-06-12 12:29:50,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Firefox,1,4.0,,SES-20260612-122912-70563
 PS_editar_datos_impuesto_determinado,27236577401,2026-06-12 12:30:08,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Firefox,1,7.0,,SES-20260612-122912-70563
 PS_editar_datos_impuesto_determinado,27238132873,2026-05-10 17:52:02,20260510,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,13.0,,SES-20260510-175113-76856
@@ -103683,6 +103765,8 @@ PS_guardar_datos_impuesto_determinado,27222670158,2026-05-17 23:30:26,20260517,/
 PS_guardar_datos_impuesto_determinado,27223566664,2026-06-11 15:00:36,20260611,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260611-150012-82821
 PS_guardar_datos_impuesto_determinado,27225289897,2026-08-11 21:42:21,20260811,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,22.0,,SES-20260811-214007-76734
 PS_guardar_datos_impuesto_determinado,27226372925,2026-06-16 11:47:21,20260616,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260616-114636-57936
+PS_guardar_datos_impuesto_determinado,27229140758,2026-08-28 17:17:52,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,2.0,,SES-20260828-171457-34816
+PS_guardar_datos_impuesto_determinado,27229140758,2026-08-28 17:17:59,20260828,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,1.0,,SES-20260828-171457-34816
 PS_guardar_datos_impuesto_determinado,27229536163,2026-05-15 08:30:45,20260515,/siferesimplificada/impuestodeterminado,desktop,Windows,Chrome,1,12.0,,SES-20260515-082951-23809
 PS_guardar_datos_impuesto_determinado,27236577401,2026-06-12 12:30:22,20260612,/siferesimplificada/impuestodeterminado,desktop,Windows,Firefox,1,12.0,,SES-20260612-122912-70563
 PS_guardar_datos_impuesto_determinado,27237639001,2026-05-15 22:51:43,20260515,/siferesimplificada/impuestodeterminado,desktop,Windows,Firefox,1,7.0,,SES-20260515-224917-38184
